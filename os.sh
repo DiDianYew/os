@@ -43,13 +43,13 @@ while true; do
                 if [ "${mobilenumber:3:1}" != "-" ]; then
                     mobilenumber="${mobilenumber:0:3}-${mobilenumber:3}"
                 fi
-
+                
                 echo -n "Birth Date (MM-DD-YYYY): "
                 read birthdate
-                if [ "${birthdate:2:1}" != "-" ] || [ "${birthdate:5:1}" != "-" ]; then
+                if [[ ! "$birthdate" =~ ^[0-9]{2}-[0-9]{2}-[0-9]{4}$ ]]; then
                     birthdate="${birthdate:0:2}-${birthdate:2:2}-${birthdate:4:4}"
                 fi
-
+                
                 while true; do
                     echo -n "Membership type (Student / Public): "
                     read membershiptype
@@ -68,16 +68,15 @@ while true; do
                 defaultdate=$(date +"%m-%d-%Y")
                 echo "Joined Date (MM-DD-YYYY): $defaultdate"
 
-                #For testing
-                echo ""
-                echo "For testing"
-                echo "$patronid"
-                echo "$firstname"
-                echo "$lastname"
-                echo "$mobilenumber"
-                echo "$birthdate"
-                echo "$membershiptype"
-                echo "$defaultdate"
+                #Debug
+                #echo ""
+                #echo "$patronid"
+                #echo "$firstname"
+                #echo "$lastname"
+                #echo "$mobilenumber"
+                #echo "$birthdate"
+                #echo "$membershiptype"
+                #echo "$defaultdate"
 
                 echo ""
                 echo "Press (q) to return to Patron Maintenance Menu."
@@ -86,11 +85,14 @@ while true; do
                     echo -n "Add another new patron details? (y)es or (q)uit: "
                     read selection
                     selection=$(echo "$selection" | tr 'A-Z' 'a-z') 
-
-                    if [ "$selection" = "q" ]; then
+                    if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
                         break 2 
-                    elif [ "$selection" = "y" ]; then 
-                        break
+                    elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
+                        if [ ! -s patron.txt ]; then
+                            echo "PatronID:FName:LName:MobileNum:BirthDate:Type:JoinedDate" > patron.txt
+                        fi
+                        echo "$patronid:$firstname:$lastname:$mobilenumber:$birthdate:$membershiptype:$defaultdate" >> patron.txt
+                        break 2              
                     else
                         echo "Invalid choice"
                     fi
@@ -104,12 +106,18 @@ while true; do
                 echo ""
                 echo -n "Enter Patron ID: "
                 read patronid
-                echo "First Name: "
-                echo "Last Name: "
-                echo "Mobile Number: "
-                echo "Birth Date (MM-DD-YYYY): "
-                echo "Membership type: "
-                echo "Joined Date (MM-DD-YYYY): "
+                if grep -q "^$patronid:" patron.txt; then
+                    patron_data=$(grep "^$patronid:" patron.txt)
+                    IFS=':' read -r patronid firstname lastname mobilenumber birthdate membershiptype defaultdate <<< "$patron_data"
+                    echo "First Name: $firstname"
+                    echo "Last Name: $lastname"
+                    echo "Mobile Number: $mobilenumber"
+                    echo "Birth Date (MM-DD-YYYY): $birthdate"
+                    echo "Membership type: $membershiptype"
+                    echo "Joined Date (MM-DD-YYYY): $defaultdate"
+                else
+                    echo "Patron ID not found"
+                fi
                 echo ""
                 echo "Press (q) to return to Patron Maintenance Menu."
                 echo ""
@@ -118,9 +126,9 @@ while true; do
                     read selection
                     selection=$(echo "$selection" | tr 'A-Z' 'a-z') 
 
-                    if [ "$selection" = "q" ]; then
+                    if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
                         break 2 
-                    elif [ "$selection" = "y" ]; then
+                    elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
                         break 
                     else
                         echo "Invalid choice. Please enter choice again."
