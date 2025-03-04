@@ -25,20 +25,60 @@ while true; do
                 clear
                 echo "Add New Patron Details Form"
                 echo "==========================="
+
                 echo -n "Patron ID: "
                 read patronid
+                patronid=$(echo "$patronid")
+
                 echo -n "First Name: "
                 read firstname
+                firstname=$(echo "$firstname")
+
                 echo -n "Last Name: "
                 read lastname
+                lastname=$(echo "$lastname")
+
                 echo -n "Mobile Number: "
                 read mobilenumber
+                if [ "${mobilenumber:3:1}" != "-" ]; then
+                    mobilenumber="${mobilenumber:0:3}-${mobilenumber:3}"
+                fi
+
                 echo -n "Birth Date (MM-DD-YYYY): "
                 read birthdate
-                echo -n "Membership type (Student / Public): "
-                read membershiptype
-                echo -n "Joined Date (MM-DD-YYYY): "
-                read joineddate
+                if [ "${birthdate:2:1}" != "-" ] || [ "${birthdate:5:1}" != "-" ]; then
+                    birthdate="${birthdate:0:2}-${birthdate:2:2}-${birthdate:4:4}"
+                fi
+
+                while true; do
+                    echo -n "Membership type (Student / Public): "
+                    read membershiptype
+                    membershiptype=$(echo "$membershiptype" | tr '[:upper:]' '[:lower:]')
+                    if [ "$membershiptype" = "student" ]; then
+                        membershiptype="Student"
+                        break
+                    elif [ "$membershiptype" = "public" ]; then
+                        membershiptype="Public"
+                        break
+                    else
+                        echo "Invalid membership type"
+                    fi
+                done
+
+                defaultdate=$(date +"%m-%d-%Y")
+                echo "Joined Date (MM-DD-YYYY): $defaultdate"
+
+                #For testing
+                echo ""
+                echo "For testing"
+                echo "$patronid"
+                echo "$firstname"
+                echo "$lastname"
+                echo "$mobilenumber"
+                echo "$birthdate"
+                echo "$membershiptype"
+                echo "$defaultdate"
+
                 echo ""
                 echo "Press (q) to return to Patron Maintenance Menu."
                 echo ""
@@ -49,10 +89,10 @@ while true; do
 
                     if [ "$selection" = "q" ]; then
                         break 2 
-                    elif [ "$selection" = "y" ]; then
-                        break 
+                    elif [ "$selection" = "y" ]; then 
+                        break
                     else
-                        echo "Invalid choice. Please enter choice again."
+                        echo "Invalid choice"
                     fi
                 done
             done
