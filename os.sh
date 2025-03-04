@@ -68,7 +68,7 @@ while true; do
                 defaultdate=$(date +"%m-%d-%Y")
                 echo "Joined Date (MM-DD-YYYY): $defaultdate"
 
-                #Debug
+                #Debug data
                 #echo ""
                 #echo "$patronid"
                 #echo "$firstname"
