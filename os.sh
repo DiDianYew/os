@@ -28,11 +28,9 @@ while true; do
 
                 echo -n "Patron ID: "
                 read patronid
-                patronid=$(echo "$patronid")
 
                 echo -n "First Name: "
                 read firstname
-                firstname=$(echo "$firstname")
 
                 echo -n "Last Name: "
                 read lastname
@@ -52,7 +50,7 @@ while true; do
                 
                 while true; do
                     echo -n "Membership type (Student / Public): "
-                    read membershiptype
+                    read membershiptype 
                     membershiptype=$(echo "$membershiptype" | tr '[:upper:]' '[:lower:]')
                     if [ "$membershiptype" = "student" ]; then
                         membershiptype="Student"
@@ -92,7 +90,7 @@ while true; do
                             echo "PatronID:FName:LName:MobileNum:BirthDate:Type:JoinedDate" > patron.txt
                         fi
                         echo "$patronid:$firstname:$lastname:$mobilenumber:$birthdate:$membershiptype:$defaultdate" >> patron.txt
-                        break 2              
+                        break              
                     else
                         echo "Invalid choice"
                     fi
