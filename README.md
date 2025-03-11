@@ -5,6 +5,7 @@ v0.0.2 - Added 8 selection layout
 v0.0.3 - Complete log data, without saving data  
 v0.0.4 - Added data validation, saving file data, detail searching  
 v0.0.5 - Completed update data
+v0.0.6 - Remove bug
 
 # Reference
 
