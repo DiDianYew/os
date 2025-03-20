@@ -6,6 +6,7 @@ v0.0.3 - Complete log data, without saving data
 v0.0.4 - Added data validation, saving file data, detail searching  
 v0.0.5 - Completed update data
 v0.0.6 - Remove bug
+v0.0.7 - Added sort arrange
 
 # Reference
 
