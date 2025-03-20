@@ -246,6 +246,9 @@ while true; do
                 echo ""
                 printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "Last Name" "First Name" "Mobile Number" "Joined Date" "Membership Type"
 
+                # tail -n +2 patron.txt is used to skip the first line of the file, which is the header.
+                # -t ':' is used to specify the delimiter as colon and -k3,3 is used to sort by the third field, which is the last name.
+                # while IFS=':' is used to sets the field separator to colon for the read command
                 tail -n +2 patron.txt | sort -t ':' -k3,3 | while IFS=':' read -r patronid firstname lastname mobilenumber birthdate membershiptype defaultdate; do
                     printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "$lastname" "$firstname" "$mobilenumber" "$defaultdate" "$membershiptype"
                 done
@@ -260,7 +263,7 @@ while true; do
                 if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
                     continue 
                 elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
-                    echo -n "Export into (file_name). Enter file name."
+                    echo -n "Export file. Enter file name: "
                     read filename
                     if [ -n "$filename" ]; then
                         sort -t ':' -k3,3 patron.txt > "$filename"
@@ -279,7 +282,8 @@ while true; do
                 echo ""
                 printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "Patron ID" "Last Name" "First Name" "Mobile Number" "Birth Date"
                 
-                tail -n +2 patron.txt | sort -t ':' -k3,3 | while IFS=':' read -r patronid firstname lastname mobilenumber birthdate membershiptype defaultdate; do
+                # Same as above, but sorting by the first field, which is the patron ID.
+                tail -n +2 patron.txt | sort -t ':' -k1,1 | while IFS=':' read -r patronid firstname lastname mobilenumber birthdate membershiptype defaultdate; do
                     printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "$patronid" "$lastname" "$firstname" "$mobilenumber" "$defaultdate"
                 done             
 
@@ -293,13 +297,14 @@ while true; do
                 if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
                     continue 
                 elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
-                     echo -n "Expor into (file_name). Enter file name" #change
-                     read selection 
-                     if [ "$selection" = "" ]; then
-                        continue  
-                     else
-                        echo "Invalid choice. Please press enter again."
-                     fi 
+                    echo -n "Export file. Enter file name: "
+                    read filename
+                    if [ -n "$filename" ]; then
+                        sort -t ':' -k1,1 patron.txt > "$filename"
+                        echo "Report exported to $filename."
+                    else
+                        echo "Invalid file name. Please press enter again."
+                    fi                
                 else
                     echo "Invalid choice. Please enter choice again."
                 fi
@@ -311,7 +316,8 @@ while true; do
                 echo ""
                 printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "Joined Date" "Patron ID" "Last Name" "First Name" "Mobile Number"
                 
-                tail -n +2 patron.txt | sort -t ':' -k3,3 | while IFS=':' read -r patronid firstname lastname mobilenumber birthdate membershiptype defaultdate; do
+                # Same as above, but sorting by the seventh field, which is the joined date.
+                tail -n +2 patron.txt | sort -t ':' -k7,7 | while IFS=':' read -r patronid firstname lastname mobilenumber birthdate membershiptype defaultdate; do
                     printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "$defaultdate" "$patronid" "$lastname" "$firstname" "$mobilenumber"
                 done                   
                 
@@ -325,13 +331,14 @@ while true; do
                 if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
                     continue 
                 elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
-                     echo -n "Expor into (file_name). Please enter to continue..." #change
-                     read selection 
-                     if [ "$selection" = "" ]; then
-                        continue 
-                     else
-                        echo "Invalid choice. Please press enter again."
-                     fi 
+                    echo -n "Export file. Enter file name: "
+                    read filename
+                    if [ -n "$filename" ]; then
+                        sort -t ':' -k7,7 patron.txt > "$filename"
+                        echo "Report exported to $filename."
+                    else
+                        echo "Invalid file name. Please press enter again."
+                    fi
                 else
                     echo "Invalid choice. Please enter choice again."
                 fi
