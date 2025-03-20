@@ -11,7 +11,7 @@ v0.0.8 - Fixed sort bug
 
 # Reference
 
-https://askubuntu.com/questions/528928/ how-to-do-underline-bold-italic-strikethrough-color-background-and-size-i  
+https://askubuntu.com/questions/528928/how-to-do-underline-bold-italic-strikethrough-color-background-and-size-i  
 https://www.geeksforgeeks.org/break-command-in-linux-with-examples/  
 https://linuxopsys.com/convert-to-uppercase-or-lowercase-on-linux  
 https://www.howtogeek.com/766978/how-to-use-case-statements-in-bash-scripts/  
