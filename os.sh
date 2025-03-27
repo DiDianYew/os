@@ -59,11 +59,11 @@ while true; do
                     year="${birthdate:6:4}"
 
                     if (( month < 1 || month > 12 )); then
-                        echo "Invalid month."
+                        echo "Month must be between 1 - 12."
                     elif (( day < 1 || day > 31 )); then
-                        echo "Invalid day."
+                        echo "Day must be between 1 - 31."
                     elif (( year < 1900 || year > $(date +"%Y") )); then
-                        echo "Invalid year."
+                        echo "Year must be between 1900 - current."
                     else
                         break
                     fi
@@ -177,13 +177,35 @@ while true; do
                     elif [ "${newmobilenumber:3:1}" != "-" ]; then
                         newmobilenumber="${newmobilenumber:0:3}-${newmobilenumber:3}"      
                     fi
-                    echo -n "Birth Date (MM-DD-YYYY): "
-                    read newbirthdate
-                    if [ -z "$newbirthdate" ]; then
-                        newbirthdate=$birthdate  
-                    elif [[ ! "$newbirthdate" =~ ^[0-9]{2}-[0-9]{2}-[0-9]{4}$ ]]; then
-                        newbirthdate="${newbirthdate:0:2}-${newbirthdate:2:2}-${newbirthdate:4:4}"      
-                    fi
+
+                    while true; do
+                        echo -n "Birth Date (MM-DD-YYYY): "
+                        read newbirthdate
+                        
+                        if [ -z "$newbirthdate" ]; then
+                            echo "Birth date cannot be empty."
+                            continue
+                        fi
+                        
+                        if [[ ! "$newbirthdate" =~ ^[0-9]{2}-[0-9]{2}-[0-9]{4}$ ]]; then
+                            newbirthdate="${newbirthdate:0:2}-${newbirthdate:2:2}-${newbirthdate:4:4}"
+                        fi
+
+                        month="${newbirthdate:0:2}"
+                        day="${newbirthdate:3:2}"
+                        year="${newbirthdate:6:4}"
+
+                        if (( month < 1 || month > 12 )); then
+                            echo "Month must be between 1 - 12."
+                        elif (( day < 1 || day > 31 )); then
+                            echo "Day must be between 1 - 31."
+                        elif (( year < 1900 || year > $(date +"%Y") )); then
+                            echo "Year must be between 1900 - current."
+                        else
+                            break
+                        fi
+                    done
+                    
                     echo "Membership type: $membershiptype"
                     echo "Joined Date (MM-DD-YYYY): $defaultdate"
                 else
