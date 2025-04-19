@@ -27,6 +27,8 @@ https://medium.com/%40linuxadminhacks/understanding-ifs-in-bash-scripting-3c67a3
 https://www.baeldung.com/linux/ifs-shell-variable?utm_source=chatgpt.com#2-use-cases-with-the-read-command  
 https://delightlylinux.wordpress.com/2020/02/16/bash-ifs-what-is-the-internal-field-separator  
 https://stackoverflow.com/questions/41231186/sort-by-multiple-columns-in-bash
+https://stackoverflow.com/questions/18731346/validate-date-format-in-a-shell-script (date validation)
+https://unix.stackexchange.com/questions/591904/how-does-dev-null-21-work (remove the error msg from date)
 
 # Current flowchart
 
