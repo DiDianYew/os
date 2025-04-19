@@ -230,8 +230,8 @@ function updateDetails() {
                     break
                 fi
 
-                mobileNumnerExists=$(grep ":$newmobileNumber:" patron.txt) # check exists in db
-                if [ -n "$mobileNumnerExists" ]; then
+                mobileNumberExists=$(grep ":$newmobileNumber:" patron.txt) # check exists in db
+                if [ -n "$mobileNumberExists" ]; then
                     echo "Mobile number already exists."
                     continue
                 fi
