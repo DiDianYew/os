@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function addNewDetails() {
-    while true; do
+   while true; do
         clear
         echo "Add New Patron Details Form"
         echo "==========================="
@@ -10,10 +10,12 @@ function addNewDetails() {
             echo -n "Patron ID: "
             read patronID
 
+            # if the file is exist and !empty
             if [ ! -s patron.txt ]; then
                 echo "PatronID:FName:LName:MobileNum:BirthDate:Type:JoinedDate" > patron.txt
             fi
 
+            # if the input is empty
             if [ -z "$patronID" ]; then
                 echo "Patron ID cannot be empty."
                 continue
@@ -31,10 +33,13 @@ function addNewDetails() {
             echo -n "First Name: "
             read firstName
 
+            # if the input is empty
             if [ -z "$firstName" ]; then
                 echo "First name cannot be empty."
+            # not only letter
             elif [[ ! "$firstName" =~ ^[A-Za-z]+$ ]]; then
                 echo "First name can only contain letters."
+            # skip the first col, check second col
             elif grep -q "^[^:]*:$firstName:" patron.txt; then
                 echo "First name already exists."
                 continue
@@ -62,14 +67,25 @@ function addNewDetails() {
         while true; do
             echo -n "Mobile Number: "
             read mobileNumber
-
+        
             length=${#mobileNumber}
 
-            if [ "$length" -eq 10 ] || [ "$length" -eq 11 ]; then
-                if [ "${mobileNumber:3:1}" != "-" ]; then
+            # if user didnt enter "-", then accept 10 or 11 digits
+            if [ "${mobileNumber:3:1}" != "-" ]; then
+                if [ "$length" -eq 10 ] || [ "$length" -eq 11 ]; then
+                    # auto add in the "-"
                     mobileNumber="${mobileNumber:0:3}-${mobileNumber:3}"
+                    break
+                else
+                    echo "Invalid format! Must be 10 or 11 digits without \" - \" ."
                 fi
-                break
+            # if user enter "-", then accept 11 or 12 digits
+            elif [ "${mobileNumber:3:1}" == "-" ]; then
+                if [ "$length" -eq 11 ] || [ "$length" -eq 12 ]; then
+                    break
+                else
+                    echo "Invalid format! Must be 11 or 12 digits with \" - \" ."
+                fi
             else 
                 echo "Invalid Phone Number! Must be 10 or 11 digits."
             fi 
@@ -84,20 +100,27 @@ function addNewDetails() {
                 continue
             fi
             
+            # auto add in "-"
             if [[ ! "$birthDate" =~ ^[0-9]{2}-[0-9]{2}-[0-9]{4}$ ]]; then
                 birthDate="${birthDate:0:2}-${birthDate:2:2}-${birthDate:4:4}"
             fi
 
-            month="${birthDate:0:2}"
-            day="${birthDate:3:2}"
-            year="${birthDate:6:4}"
+            # check with date -d if its real calender
+            if ! date -d "$birthDate" "+%m-%d-%Y" > /dev/null 2>&1; then 
+                # get month, day, year 
+                month="${birthDate:0:2}"
+                day="${birthDate:3:2}"
+                year="${birthDate:6:4}"
 
-            if (( month < 1 || month > 12 )); then
-                echo "Month must be between 1 - 12."
-            elif (( day < 1 || day > 31 )); then
-                echo "Day must be between 1 - 31."
-            elif (( year < 1900 || year > $(date +"%Y") )); then
-                echo "Year must be between 1900 - current."
+                # provide error details
+                if (( month < 1 || month > 12 )); then
+                    echo "Month must be between 1 - 12."
+                elif (( day < 1 || day > 31 )); then
+                    echo "Day must be between 1 - 30 / 31. [28 / 29 if is February]"
+                elif (( year < 1900 || year > $(date +"%Y") )); then
+                    echo "Year must be between 1900 - current."
+                fi
+                continue 
             else
                 break
             fi
