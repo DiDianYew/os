@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function addNewDetails() {
-   while true; do
+    while true; do
         clear
         echo "Add New Patron Details Form"
         echo "==========================="
@@ -18,6 +18,14 @@ function addNewDetails() {
             # if the input is empty
             if [ -z "$patronID" ]; then
                 echo "Patron ID cannot be empty."
+                continue
+            fi
+
+            # toUpper
+            patronID=$(echo "$patronID" | tr 'a-z' 'A-Z')
+            # id format start with 'P' + 4 digit. eg P0000
+            if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
+                echo "Invalid ID format, must start with \"P\" with 4 digits number. eg. P0001"
                 continue
             fi
 
@@ -54,12 +62,15 @@ function addNewDetails() {
 
             if [ -z "$lastName" ]; then
                 echo "Last name cannot be empty."
+                continue
             elif [[ ! "$lastName" =~ ^[A-Za-z]+$ ]]; then
                 echo "Last name can only contain letters."
+                continue
             elif grep -q "^[^:]*:[^:]*:$lastName:" patron.txt; then
                 echo "Last name already exists."
                 continue
             else
+                # echo "successful"
                 break
             fi
         done
@@ -68,6 +79,11 @@ function addNewDetails() {
             echo -n "Mobile Number: "
             read mobileNumber
         
+            if [ -z "$mobileNumber" ]; then
+                echo "Mobile Number cannot be empty."
+                continue
+            fi
+
             length=${#mobileNumber}
 
             # if user didnt enter "-", then accept 10 or 11 digits
@@ -78,16 +94,20 @@ function addNewDetails() {
                     break
                 else
                     echo "Invalid format! Must be 10 or 11 digits without \" - \" ."
+                    continue
                 fi
             # if user enter "-", then accept 11 or 12 digits
             elif [ "${mobileNumber:3:1}" == "-" ]; then
                 if [ "$length" -eq 11 ] || [ "$length" -eq 12 ]; then
+                echo "$mobileNumber"
                     break
                 else
                     echo "Invalid format! Must be 11 or 12 digits with \" - \" ."
+                    continue
                 fi
             else 
                 echo "Invalid Phone Number! Must be 10 or 11 digits."
+                continue
             fi 
         done
 
@@ -100,13 +120,24 @@ function addNewDetails() {
                 continue
             fi
             
-            # auto add in "-"
-            if [[ ! "$birthDate" =~ ^[0-9]{2}-[0-9]{2}-[0-9]{4}$ ]]; then
-                birthDate="${birthDate:0:2}-${birthDate:2:2}-${birthDate:4:4}"
+            # clear input to only digit
+            cleanDate=$(echo "$birthDate" | tr -d -c '0-9')
+
+            #check if has 8 digit
+            if [[ "${#cleanDate}" -eq 8 ]]; then
+                # add in the "-" for data entry and "/" for checking
+                birthDate="${cleanDate:0:2}-${cleanDate:2:2}-${cleanDate:4:4}"
+                birthDateCheck="${cleanDate:0:2}/${cleanDate:2:2}/${cleanDate:4:4}"
+            else
+                echo "Invalid date. Have to include 0."
+                continue
             fi
 
+            # echo "Parsed date: $birthDate"
+            # echo "Parsed date: $birthDateCheck"
+
             # check with date -d if its real calender
-            if ! date -d "$birthDate" "+%m-%d-%Y" > /dev/null 2>&1; then 
+            if ! date -d "$birthDateCheck" "+%m-%d-%Y" > /dev/null 2>&1; then 
                 # get month, day, year 
                 month="${birthDate:0:2}"
                 day="${birthDate:3:2}"
@@ -119,6 +150,8 @@ function addNewDetails() {
                     echo "Day must be between 1 - 30 / 31. [28 / 29 if is February]"
                 elif (( year < 1900 || year > $(date +"%Y") )); then
                     echo "Year must be between 1900 - current."
+                else
+                    echo "Invalid date!"
                 fi
                 continue 
             else
@@ -129,6 +162,7 @@ function addNewDetails() {
         while true; do
             echo -n "Membership type (Student / Public): "
             read membershipType
+            # to lower , then set first to upper
             membershipType=$(echo "$membershipType" | tr '[:upper:]' '[:lower:]')
             if [ "$membershipType" = "student" ]; then
                 membershipType="Student"
@@ -166,12 +200,14 @@ function addNewDetails() {
                     echo "PatronID:FName:LName:MobileNum:BirthDate:Type:JoinedDate" > patron.txt
                 fi
                 echo "$patronID:$firstName:$lastName:$mobileNumber:$birthDate:$membershipType:$defaultDate" >> patron.txt
+                # break 2 loop to quit
                 break 2 
             elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
                 if [ ! -s patron.txt ]; then
                     echo "PatronID:FName:LName:MobileNum:BirthDate:Type:JoinedDate" > patron.txt
                 fi
                 echo "$patronID:$firstName:$lastName:$mobileNumber:$birthDate:$membershipType:$defaultDate" >> patron.txt
+                # break 1 loop to continue add patron
                 break               
             else
                 echo "Invalid choice"
@@ -185,8 +221,20 @@ function searchDetails() {
         clear
         echo "Search a Patron Details"
         echo ""
-        echo -n "Enter Patron ID: "
-        read patronID
+  
+        while true; do
+            echo -n "Enter Patron ID: "
+            read patronID
+            patronID=$(echo "$patronID" | tr 'a-z' 'A-Z')
+            if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
+                    echo "Invalid ID format, Please insert P + 4 digits. eg. P0001"
+                    echo ""
+                    continue
+            else
+                break 
+            fi
+        done 
+
         if grep -q "^$patronID:" patron.txt; then
             patron_data=$(grep "^$patronID:" patron.txt)
             IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate <<< "$patron_data"
@@ -223,8 +271,18 @@ function updateDetails() {
     clear
     echo "Update a Patron Details"
     echo ""
-    echo -n "Enter Patron ID: "
-    read patronID
+    while true; do
+        echo -n "Enter Patron ID: "
+        read patronID
+        patronID=$(echo "$patronID" | tr 'a-z' 'A-Z')
+        if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
+                echo "Invalid ID format, Please insert P + 4 digits. eg. P0001"
+                echo ""
+                continue
+        else
+            break 
+        fi
+    done 
     echo "________________________________________________"
     echo ""
     if grep -q "^$patronID:" patron.txt; then
@@ -244,49 +302,84 @@ function updateDetails() {
 
             length=${#newmobileNumber}
 
-            if [ "$length" -eq 10 ] || [ "$length" -eq 11 ]; then
-                if [ "${newmobileNumber:3:1}" != "-" ]; then
+             # if user didnt enter "-", then accept 10 or 11 digits
+            if [ "${newmobileNumber:3:1}" != "-" ]; then
+                if [ "$length" -eq 10 ] || [ "$length" -eq 11 ]; then
+                    # auto add in the "-"
                     newmobileNumber="${newmobileNumber:0:3}-${newmobileNumber:3}"
-                fi
 
-                if [ "$newmobileNumber" = "$mobileNumber" ]; then # same number
+                    if [ "$newmobileNumber" = "$mobileNumber" ]; then # same number
+                        break
+                    fi
+
+                    mobileNumberExists=$(grep ":$newmobileNumber:" patron.txt) # check exists in db
+                    if [ -n "$mobileNumberExists" ]; then
+                        echo "Mobile number already exists."
+                        continue
+                    fi
                     break
+                else
+                    echo "Invalid format! Must be 10 or 11 digits without \" - \" ."
                 fi
+            # if user enter "-", then accept 11 or 12 digits
+            elif [ "${newmobileNumber:3:1}" == "-" ]; then
+                if [ "$length" -eq 11 ] || [ "$length" -eq 12 ]; then
 
-                mobileNumberExists=$(grep ":$newmobileNumber:" patron.txt) # check exists in db
-                if [ -n "$mobileNumberExists" ]; then
-                    echo "Mobile number already exists."
+                    if [ "$newmobileNumber" = "$mobileNumber" ]; then # same number
+                    break
+                    fi
+
+                    mobileNumberExists=$(grep ":$newmobileNumber:" patron.txt) # check exists in db
+                    if [ -n "$mobileNumberExists" ]; then
+                        echo "Mobile number already exists."
                     continue
+                    fi
+                    break
+                else
+                    echo "Invalid format! Must be 11 or 12 digits with \" - \" ."
                 fi
-                break
             else 
                 echo "Invalid Phone Number! Must be 10 or 11 digits."
-            fi 
+            fi
         done
 
         while true; do
             echo -n "Birth Date (MM-DD-YYYY): "
-            read newbirthDate
+            read NewBirthDate
             
-            if [ -z "$newbirthDate" ]; then
+            if [ -z "$NewBirthDate" ]; then
                 echo "Birth date cannot be empty."
                 continue
             fi
             
-            if [[ ! "$newbirthDate" =~ ^[0-9]{2}-[0-9]{2}-[0-9]{4}$ ]]; then
-                newbirthDate="${newbirthDate:0:2}-${newbirthDate:2:2}-${newbirthDate:4:4}"
+            # clear input to only digit
+            cleanNewBirthDate=$(echo "$NewBirthDate" | tr -d -c '0-9')
+
+            #check if has 8 digit
+            if [[ "${#cleanNewBirthDate}" -eq 8 ]]; then
+                # add in the "-" for data entry and "/" for checking
+                NewBirthDate="${cleanNewBirthDate:0:2}-${cleanNewBirthDate:2:2}-${cleanNewBirthDate:4:4}"
+                NewBirthDateCheck="${cleanNewBirthDate:0:2}/${cleanNewBirthDate:2:2}/${cleanNewBirthDate:4:4}"
+            else
+                echo "Invalid date. Have to include 0."
+                continue
             fi
 
-            month="${newbirthDate:0:2}"
-            day="${newbirthDate:3:2}"
-            year="${newbirthDate:6:4}"
+            # check with date -d if its real calender
+            if ! date -d "$NewBirthDateCheck" "+%m-%d-%Y" > /dev/null 2>&1; then 
+                # get month, day, year 
+                month="${NewBirthDate:0:2}"
+                day="${NewBirthDate:3:2}"
+                year="${NewBirthDate:6:4}"
 
-            if (( month < 1 || month > 12 )); then
-                echo "Month must be between 1 - 12."
-            elif (( day < 1 || day > 31 )); then
-                echo "Day must be between 1 - 31."
-            elif (( year < 1900 || year > $(date +"%Y") )); then
-                echo "Year must be between 1900 - current."
+                if (( month < 1 || month > 12 )); then
+                    echo "Month must be between 1 - 12."
+                elif (( day < 1 || day > 31 )); then
+                    echo "Day must be between 1 - 31."
+                elif (( year < 1900 || year > $(date +"%Y") )); then
+                    echo "Year must be between 1900 - current."
+                fi
+                continue
             else
                 break
             fi
@@ -308,7 +401,7 @@ function updateDetails() {
     if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
         continue 
     elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
-        sed -i "s/^$patronID:.*/$patronID:$firstName:$lastName:$newmobileNumber:$newbirthDate:$membershipType:$defaultDate/" patron.txt
+        sed -i "s/^$patronID:.*/$patronID:$firstName:$lastName:$newmobileNumber:$NewBirthDate:$membershipType:$defaultDate/" patron.txt
         continue 
     else
         echo "Invalid choice. Please enter choice again."
@@ -319,8 +412,20 @@ function deleteDetails() {
     clear
     echo "Delete a Patron Details"
     echo ""
-    echo -n "Enter Patron ID: "
-    read patronID
+    
+    while true; do
+        echo -n "Enter Patron ID: "
+        read patronID
+        patronID=$(echo "$patronID" | tr 'a-z' 'A-Z')
+        if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
+                echo "Invalid ID format, Please insert P + 4 digits. eg. P0001"
+                echo ""
+                continue
+        else
+            break 
+        fi
+    done 
+
     echo " ________________________________________________"
     if grep -q "^$patronID:" patron.txt; then
         patron_data=$(grep "^$patronID:" patron.txt)
@@ -363,7 +468,7 @@ function sortLastName() {
     # tail -n +2 patron.txt is used to skip the first line of the file, which is the header.
     # -t ':' is used to specify the delimiter as colon and -k3, 3 is used to sort by the third field, which is the last name.
     # while IFS=':' is used to sets the field separator to colon for the read command
-    tail -n +2 patron.txt | sort -t ':' -k3,3 | while IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate; do #do we need birthdate?
+    tail -n +2 patron.txt | sort -t ':' -k3,3 | while IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate; do 
         printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "$lastName" "$firstName" "$mobileNumber" "$defaultDate" "$membershipType"
     done
 
@@ -380,7 +485,9 @@ function sortLastName() {
         echo -n "Export file. Enter file name: "
         read fileName
         if [ -n "$fileName" ]; then
-            sort -t ':' -k3,3 patron.txt > "$fileName"
+            # sort -t ':' -k3,3 patron.txt > "$fileName"
+            head -n 1 patron.txt > "$fileName"  # Write header
+            tail -n +2 patron.txt | sort -t ':' -k3,3 >> "$fileName"
             echo "Report exported to $fileName."
         else
             echo "Invalid file name. Please press enter again."
@@ -400,7 +507,7 @@ function sortPatronID() {
     
     # Same as above, but sorting by the first field, which is the patron ID.
     tail -n +2 patron.txt | sort -t ':' -k1,1 | while IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate; do
-        printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "$patronID" "$lastName" "$firstName" "$mobileNumber" "$defaultDate"
+        printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "$patronID" "$lastName" "$firstName" "$mobileNumber" "$birthDate"
     done             
 
     echo ""
@@ -416,7 +523,9 @@ function sortPatronID() {
         echo -n "Export file. Enter file name: "
         read fileName
         if [ -n "$fileName" ]; then
-            sort -t ':' -k1,1 patron.txt > "$fileName"
+            head -n 1 patron.txt > "$fileName"  # Write header
+            tail -n +2 patron.txt | sort -t ':' -k1,1 >> "$fileName"
+            # sort -t ':' -k1,1 patron.txt > "$fileName"
             echo "Report exported to $fileName."
         else
             echo "Invalid file name. Please press enter again."
@@ -432,11 +541,11 @@ function sortJoinedDate() {
     echo "Patron Details Sorted by Joined Date"
     echo ""
     echo " =========================================================================="
-    printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "Joined Date" "Patron ID" "Last Name" "First Name" "Mobile Number"
+    printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "Patron ID" "Last Name" "First Name" "Mobile Number" "Joined Date"
     
     # Same as above, but sorting by the seventh field, which is the joined date.
     tail -n +2 patron.txt | sort -t ':' -k7,7 | while IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate; do
-        printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "$defaultDate" "$patronID" "$lastName" "$firstName" "$mobileNumber"
+        printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "$patronID" "$lastName" "$firstName" "$mobileNumber" "$defaultDate"
     done                   
     
     echo ""
@@ -452,7 +561,9 @@ function sortJoinedDate() {
         echo -n "Export file. Enter file name: "
         read fileName
         if [ -n "$fileName" ]; then
-            sort -t ':' -k7,7 patron.txt > "$fileName"
+            head -n 1 patron.txt > "$fileName"  # Write header
+            tail -n +2 patron.txt | sort -t ':' -k7,7 >> "$fileName"
+            # sort -t ':' -k7,7 patron.txt > "$fileName"
             echo "Report exported to $fileName."
         else
             echo "Invalid file name. Please press enter again."
@@ -462,49 +573,53 @@ function sortJoinedDate() {
     fi
 }
 
-while true; do
-    clear
-    echo "Patron Maintenance Menu"
-    echo ""
-    echo "A – Add New Patron Details"
-    echo "S – Search a Patron"
-    echo "U – Update a Patron Details"
-    echo "D – Delete a Patron Details"
-    echo "L – Sort Patrons by Last Name"
-    echo "P – Sort Patrons by Patron ID"
-    echo "J – Sort Patrons by Joined Date"
-    echo ""
-    echo "Q – Exit from Program"
-    echo ""
-    echo -n "Please select a choice: "
-    read selection
+function main_menu() {
+    while true; do
+        clear
+        echo "Patron Maintenance Menu"
+        echo ""
+        echo "A – Add New Patron Details"
+        echo "S – Search a Patron"
+        echo "U – Update a Patron Details"
+        echo "D – Delete a Patron Details"
+        echo "L – Sort Patrons by Last Name"
+        echo "P – Sort Patrons by Patron ID"
+        echo "J – Sort Patrons by Joined Date"
+        echo ""
+        echo "Q – Exit from Program"
+        echo ""
+        echo -n "Please select a choice: "
+        read selection
 
-    selection=$(echo "$selection" | tr 'a-z' 'A-Z')
+        selection=$(echo "$selection" | tr 'a-z' 'A-Z')
 
-    case $selection in
-        "A")
-            addNewDetails
-            ;;
-        "S")
-            searchDetails
-            ;;
-        "U")
-            updateDetails
-            ;;
-        "D")
-            deleteDetails
-            ;;
-        "L")
-            sortLastName
-            ;;
-        "P")
-            sortPatronID
-            ;;
-        "J")
-            sortJoinedDate
-            ;;
-        "Q")
-            exit
-            ;;
-    esac
-done
+        case $selection in
+            "A")
+                addNewDetails
+                ;;
+            "S")
+                searchDetails
+                ;;
+            "U")
+                updateDetails
+                ;;
+            "D")
+                deleteDetails
+                ;;
+            "L")
+                sortLastName
+                ;;
+            "P")
+                sortPatronID
+                ;;
+            "J")
+                sortJoinedDate
+                ;;
+            "Q")
+                exit
+                ;;
+        esac
+    done
+}
+
+main_menu
