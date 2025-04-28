@@ -1,55 +1,164 @@
 #!/bin/bash
 
+function showNewMenu() {
+    clear
+    echo "╔══════════════════════════════════════════════════════════════════════════════╗"
+    echo "║                         Add New Patron Details Form                          ║"
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    echo "║                                                                              ║"
+    echo "║  Patron ID: $patronID                                                            ║"      
+    echo "║  First Name:                                                                 ║"      
+    echo "║  Last Name:                                                                  ║"      
+    echo "║  Mobile Number:                                                              ║"      
+    echo "║  Birth Date (MM-DD-YYYY):                                                    ║"      
+    echo "║  Membership Type (Student / Public):                                         ║"      
+    echo "║  Joined Date (MM-DD-YYYY): $defaultDate                                                  ║"      
+    echo "║                                                                              ║"
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    echo "║                                                                              ║"
+    echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+}
+
+function showSearchMenu() {
+    clear
+    echo "╔══════════════════════════════════════════════════════════════════════════════╗"
+    echo "║                            Search a Patron Details                           ║"
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    echo "║                                                                              ║"
+    echo "║  Patron ID:                                                                  ║"      
+    echo "║  First Name:                                                                 ║"      
+    echo "║  Last Name:                                                                  ║"      
+    echo "║  Mobile Number:                                                              ║"      
+    echo "║  Birth Date (MM-DD-YYYY):                                                    ║"      
+    echo "║  Membership Type (Student / Public):                                         ║"      
+    echo "║  Joined Date (MM-DD-YYYY):                                                   ║"      
+    echo "║                                                                              ║"
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    echo "║                                                                              ║"
+    echo "╚══════════════════════════════════════════════════════════════════════════════╝" 
+}
+
+function showDeleteMenu() {
+    clear
+    echo "╔══════════════════════════════════════════════════════════════════════════════╗"
+    echo "║                            Delete a Patron Details                           ║"
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    echo "║                                                                              ║"
+    echo "║  Patron ID:                                                                  ║"      
+    echo "║  First Name:                                                                 ║"      
+    echo "║  Last Name:                                                                  ║"      
+    echo "║  Mobile Number:                                                              ║"      
+    echo "║  Birth Date (MM-DD-YYYY):                                                    ║"      
+    echo "║  Membership Type (Student / Public):                                         ║"      
+    echo "║  Joined Date (MM-DD-YYYY):                                                   ║"      
+    echo "║                                                                              ║"
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    echo "║                                                                              ║"
+    echo "╚══════════════════════════════════════════════════════════════════════════════╝" 
+}
+
+function showUpdateMenu() {
+    clear
+    echo "╔══════════════════════════════════════════════════════════════════════════════╗"
+    echo "║                             Update a Patron Details                          ║"
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    echo "║                                                                              ║"
+    echo "║  Patron ID:                                                                  ║"      
+    echo "║  First Name:                                                                 ║"      
+    echo "║  Last Name:                                                                  ║"      
+    echo "║  Mobile Number:                                                              ║"      
+    echo "║  Birth Date (MM-DD-YYYY):                                                    ║"      
+    echo "║  Membership Type (Student / Public):                                         ║"      
+    echo "║  Joined Date (MM-DD-YYYY):                                                   ║"      
+    echo "║                                                                              ║"
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    echo "║                                                                              ║"
+    echo "╚══════════════════════════════════════════════════════════════════════════════╝"  
+}
+
+function showSortLastNameMenu() {
+    clear
+    echo "╔═════════════════════════════════════════════════════════════════════════════════════════╗"
+    echo "║                            Patron Details Sorted by Last Name                           ║"
+    echo "╠═════════════════╦═════════════════╦═════════════════╦═════════════════╦═════════════════╣"  
+    printf "║ %-15s ║ %-15s ║ %-15s ║ %-15s ║ %-15s ║\n" "Last Name" "First Name" "Mobile Number" "Joined Date" "Membership Type"
+    echo "╠═════════════════╬═════════════════╬═════════════════╬═════════════════╬═════════════════╣"
+}
+
+function showSortPatronIDMenu() {
+    clear
+    echo "╔═════════════════════════════════════════════════════════════════════════════════════════╗"
+    echo "║                            Patron Details Sorted by Patron ID                           ║"
+    echo "╠═════════════════╦═════════════════╦═════════════════╦═════════════════╦═════════════════╣"  
+    printf "║ %-15s ║ %-15s ║ %-15s ║ %-15s ║ %-15s ║\n" "Patron ID" "Last Name" "First Name" "Mobile Number" "Birth Date"
+    echo "╠═════════════════╬═════════════════╬═════════════════╬═════════════════╬═════════════════╣"
+}
+
+function showSortJoinedDateMenu() {
+    clear
+    echo "╔═════════════════════════════════════════════════════════════════════════════════════════╗"
+    echo "║                           Patron Details Sorted by Joined Date                          ║"
+    echo "╠═════════════════╦═════════════════╦═════════════════╦═════════════════╦═════════════════╣"  
+    printf "║ %-15s ║ %-15s ║ %-15s ║ %-15s ║ %-15s ║\n" "Patron ID" "Last Name" "First Name" "Mobile Number" "Joined Date"
+    echo "╠═════════════════╬═════════════════╬═════════════════╬═════════════════╬═════════════════╣"
+}
+
+function showExitMenu() {
+    clear
+    echo "╔════════════════════════════════════════════════════════════════════════════════╗"
+    echo "║                           Thank For Using Our Service                          ║"
+    echo "╚════════════════════════════════════════════════════════════════════════════════╝"
+}
+
 function addNewDetails() {
     while true; do
-        clear
-        echo "Add New Patron Details Form"
-        echo "==========================="
+        # Check if the patron.txt file exists and not empty
+        if [ ! -s patron.txt ]; then
+            echo "PatronID:FName:LName:MobileNum:BirthDate:MembershipType:JoinedDate" > patron.txt
+        fi
+
+        patronID=""
+        
+        # Determine next Patron ID
+        if [ "$(wc -l < patron.txt)" -gt 1 ]; then
+            # Get the highest existing Patron ID, increment it for the new ID
+            patronIDCheck=$(grep -o "^P[0-9]\{4\}" patron.txt | sed 's/P//' | sort -n | tail -1)
+            # get the last id and + 1
+            patronID=$(printf "P%04d" $((patronIDCheck + 1)))
+        else
+            # If file empty
+            patronID="P0001"
+        fi
+
+        defaultDate=""
+        showNewMenu
 
         while true; do
-            echo -n "Patron ID: "
-            read patronID
+            tput cup 5 15  
+            printf "%-60s" " "  
+            tput cup 5 15  
+            read -r firstName
 
-            # if the file is exist and !empty
-            if [ ! -s patron.txt ]; then
-                echo "PatronID:FName:LName:MobileNum:BirthDate:Type:JoinedDate" > patron.txt
-            fi
-
-            # if the input is empty
-            if [ -z "$patronID" ]; then
-                echo "Patron ID cannot be empty."
-                continue
-            fi
-
-            # toUpper
-            patronID=$(echo "$patronID" | tr 'a-z' 'A-Z')
-            # id format start with 'P' + 4 digit. eg P0000
-            if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
-                echo "Invalid ID format, must start with \"P\" with 4 digits number. eg. P0001"
-                continue
-            fi
-
-            if grep -q "^$patronID:" patron.txt; then
-                echo "Patron ID already exists."
-                continue
-            else
-                break
-            fi
-        done
-
-        while true; do
-            echo -n "First Name: "
-            read firstName
+            tput cup 13 3 
+            printf "%-76s║" " "
 
             # if the input is empty
             if [ -z "$firstName" ]; then
-                echo "First name cannot be empty."
+                errorMessage="First name cannot be empty."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue  
             # not only letter
             elif [[ ! "$firstName" =~ ^[A-Za-z]+$ ]]; then
-                echo "First name can only contain letters."
+                errorMessage="First name can only contain letters."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue 
             # skip the first col, check second col
             elif grep -q "^[^:]*:$firstName:" patron.txt; then
-                echo "First name already exists."
+                errorMessage="First name already exists."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
                 continue
             else
                 break
@@ -57,17 +166,28 @@ function addNewDetails() {
         done
 
         while true; do
-            echo -n "Last Name: "
-            read lastName
+            tput cup 6 14  # Move to row 4, column 14 (Patron ID input position)
+            printf "%-61s" " "  # clear line
+            tput cup 6 14
+            read -r lastName
+
+            tput cup 13 3 
+            printf "%-76s║" " "
 
             if [ -z "$lastName" ]; then
-                echo "Last name cannot be empty."
+                errorMessage="Last name cannot be empty."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
                 continue
             elif [[ ! "$lastName" =~ ^[A-Za-z]+$ ]]; then
-                echo "Last name can only contain letters."
+                errorMessage="Last name can only contain letters."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
                 continue
             elif grep -q "^[^:]*:[^:]*:$lastName:" patron.txt; then
-                echo "Last name already exists."
+                errorMessage="Last name already exists."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
                 continue
             else
                 # echo "successful"
@@ -76,92 +196,151 @@ function addNewDetails() {
         done
 
         while true; do
-            echo -n "Mobile Number: "
-            read mobileNumber
-        
+            tput cup 7 18 
+            printf "%-57s" " "  
+            tput cup 7 18
+            read -r mobileNumber
+
+            tput cup 13 3 
+            printf "%-76s║" " "
+
             if [ -z "$mobileNumber" ]; then
-                echo "Mobile Number cannot be empty."
+                errorMessage="Mobile Number cannot be empty."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
                 continue
             fi
 
-            length=${#mobileNumber}
-
-            # if user didnt enter "-", then accept 10 or 11 digits
-            if [ "${mobileNumber:3:1}" != "-" ]; then
-                if [ "$length" -eq 10 ] || [ "$length" -eq 11 ]; then
-                    # auto add in the "-"
-                    mobileNumber="${mobileNumber:0:3}-${mobileNumber:3}"
-                    break
-                else
-                    echo "Invalid format! Must be 10 or 11 digits without \" - \" ."
-                    continue
-                fi
-            # if user enter "-", then accept 11 or 12 digits
-            elif [ "${mobileNumber:3:1}" == "-" ]; then
-                if [ "$length" -eq 11 ] || [ "$length" -eq 12 ]; then
-                echo "$mobileNumber"
-                    break
-                else
-                    echo "Invalid format! Must be 11 or 12 digits with \" - \" ."
-                    continue
-                fi
-            else 
-                echo "Invalid Phone Number! Must be 10 or 11 digits."
+            checkNumber="${mobileNumber//-/}"
+            length=${#checkNumber}
+            checkStartingNumber="${checkNumber:0:3}"
+        
+            if [[ ! "$checkStartingNumber" =~ ^01[0-9]$ ]]; then
+                errorMessage="Invalid mobile number. Must start with 010-019."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
                 continue
-            fi 
+            fi
+
+            if [ "$checkStartingNumber" = "011" ]; then
+                # 011 needs 11 digits total
+                if [ "$length" -ne 11 ]; then
+                    errorMessage="Numbers with 011 must have 11 digits total."
+                    tput cup 13 3 
+                    printf "%-76s║" "$errorMessage"
+                    continue
+                fi
+            else
+                # All other need 10 digits total 
+                if [ "$length" -ne 10 ]; then
+                    errorMessage="Numbers with ${checkStartingNumber} must have 10 digits total"
+                    tput cup 13 3 
+                    printf "%-76s║" "$errorMessage"
+                    continue
+                fi
+            fi
+
+            mobileNumber="${checkNumber:0:3}-${checkNumber:3}"
+            break
         done
 
         while true; do
-            echo -n "Birth Date (MM-DD-YYYY): "
-            read birthDate
+            tput cup 8 28 
+            printf "%-47s" " "  
+            tput cup 8 28         
+            read -r birthDate
             
-            if [ -z "$birthDate" ]; then
-                echo "Birth date cannot be empty."
-                continue
-            fi
-            
-            # clear input to only digit
+            tput cup 13 3 
+            printf "%-76s║" " "
+
+            # Clear input to only digits
             cleanDate=$(echo "$birthDate" | tr -d -c '0-9')
 
-            #check if has 8 digit
-            if [[ "${#cleanDate}" -eq 8 ]]; then
-                # add in the "-" for data entry and "/" for checking
-                birthDate="${cleanDate:0:2}-${cleanDate:2:2}-${cleanDate:4:4}"
-                birthDateCheck="${cleanDate:0:2}/${cleanDate:2:2}/${cleanDate:4:4}"
-            else
-                echo "Invalid date. Have to include 0."
+            # Check if empty
+            if [ -z "$cleanDate" ]; then
+                errorMessage="Birth date cannot be empty."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
                 continue
             fi
-
-            # echo "Parsed date: $birthDate"
-            # echo "Parsed date: $birthDateCheck"
-
-            # check with date -d if its real calender
-            if ! date -d "$birthDateCheck" "+%m-%d-%Y" > /dev/null 2>&1; then 
-                # get month, day, year 
-                month="${birthDate:0:2}"
-                day="${birthDate:3:2}"
-                year="${birthDate:6:4}"
-
-                # provide error details
-                if (( month < 1 || month > 12 )); then
-                    echo "Month must be between 1 - 12."
-                elif (( day < 1 || day > 31 )); then
-                    echo "Day must be between 1 - 30 / 31. [28 / 29 if is February]"
-                elif (( year < 1900 || year > $(date +"%Y") )); then
-                    echo "Year must be between 1900 - current."
-                else
-                    echo "Invalid date!"
-                fi
-                continue 
-            else
-                break
+            
+            # Check if has 8 digits
+            if [[ "${#cleanDate}" -ne 8 ]]; then
+                errorMessage="Invalid date format. Must be 8 digits (MMDDYYYY)."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
             fi
+            
+            # Extract date parts
+            month="${cleanDate:0:2}"
+            day="${cleanDate:2:2}"
+            year="${cleanDate:4:4}"
+            
+            # Format for display
+            birthDate="${month}-${day}-${year}"
+            
+            # ALWAYS validate ranges regardless of date -d result
+            if (( month < 1 || month > 12 )); then
+                errorMessage="Month must be between 1-12."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
+            elif (( day < 1 || day > 31 )); then
+                errorMessage="Day must be between 1-31."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
+            elif (( year < 1900  )); then
+                errorMessage="Year must be between 1900-$(date +"%Y")."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
+            fi
+            
+            # Calculate mnimum 12 years old
+            currentYear=$(date +"%Y")
+            currentMonth=$(date +"%m")
+            currentDay=$(date +"%d")
+            minYear=$((currentYear - 12))
+
+            if (( year > minYear )); then
+                errorMessage="Must be at least 12 years old."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
+            elif (( year == minYear && month > currentMonth )); then
+                errorMessage="Must be at least 12 years old."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
+            elif (( year == minYear && month == currentMonth && day > currentDay )); then
+                errorMessage="Must be at least 12 years old."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
+            fi
+            
+            # Check if date is valid calendar date (Feb 30, etc.)
+            birthDateCheck="${month}/${day}/${year}"
+            if ! date -d "$birthDateCheck" "+%m-%d-%Y" > /dev/null 2>&1; then
+                errorMessage="Invalid calendar date (e.g., Feb 30 doesn't exist)."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
+            fi
+            break
         done
         
         while true; do
-            echo -n "Membership type (Student / Public): "
-            read membershipType
+            tput cup 9 39 
+            printf "%-36s" " "  
+            tput cup 9 39                
+            read -r membershipType
+
+            tput cup 13 3 
+            printf "%-76s║" " "
+
             # to lower , then set first to upper
             membershipType=$(echo "$membershipType" | tr '[:upper:]' '[:lower:]')
             if [ "$membershipType" = "student" ]; then
@@ -171,46 +350,45 @@ function addNewDetails() {
                 membershipType="Public"
                 break
             else
-                echo "Invalid membership type"
+                errorMessage="Invalid membership type"
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
             fi
         done
 
-        defaultDate=$(date +"%m-%d-%Y")
-        echo "Joined Date (MM-DD-YYYY): $defaultDate"
+        tput cup 10 29 
+        defaultDate=$(date +"%m-%d-%Y")  
+        echo "$defaultDate"
 
-        #Debug
-        #echo ""
-        #echo "$patronid"
-        #echo "$firstname"
-        #echo "$lastname"
-        #echo "$mobilenumber"
-        #echo "$birthdate"
-        #echo "$membershiptype"
-        #echo "$defaultdate"
-
-        echo ""
-        echo "Press (q) to return to Patron Maintenance Menu."
-        echo ""
-        while true; do
-            echo -n "Add another new patron details? (y)es or (q)uit: "
-            read selection
-            selection=$(echo "$selection" | tr 'A-Z' 'a-z') 
+        tput cup 12 0
+        echo "║  Press (q) to return to Patron Maintenance Menu.                             ║"
+        echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+        while true; do 
+            tput cup 14 0 
+            echo "║  Add another new patron details? (y)es or (q)uit:                            ║"
+            echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+            tput cup 14 52
+            read -r selection
+            selection=$(echo "$selection" | tr '[:upper:]' '[:lower:]') 
             if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
                 if [ ! -s patron.txt ]; then
-                    echo "PatronID:FName:LName:MobileNum:BirthDate:Type:JoinedDate" > patron.txt
+                    echo "PatronID:FName:LName:MobileNum:BirthDate:MembershipType:JoinedDate" > patron.txt
                 fi
                 echo "$patronID:$firstName:$lastName:$mobileNumber:$birthDate:$membershipType:$defaultDate" >> patron.txt
-                # break 2 loop to quit
-                break 2 
+                break 2     # break 2 loop to quit
             elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
                 if [ ! -s patron.txt ]; then
-                    echo "PatronID:FName:LName:MobileNum:BirthDate:Type:JoinedDate" > patron.txt
+                    echo "PatronID:FName:LName:MobileNum:BirthDate:MembershipType:JoinedDate" > patron.txt
                 fi
                 echo "$patronID:$firstName:$lastName:$mobileNumber:$birthDate:$membershipType:$defaultDate" >> patron.txt
-                # break 1 loop to continue add patron
-                break               
+                break    # break 1 loop to continue add patron
             else
-                echo "Invalid choice"
+                errorMessage="Invalid choice (Press any key to continue)"
+                tput cup 14 3 
+                printf "%-76s║" "$errorMessage"
+                tput cup 14 0
+                read -r -n 1 
             fi
         done
     done
@@ -218,18 +396,29 @@ function addNewDetails() {
 
 function searchDetails() {
     while true; do
-        clear
-        echo "Search a Patron Details"
-        echo ""
-  
+        showSearchMenu
+
+        # firstName=""
+        # lastName=""
+        # mobileNumber=""
+        # birthDate=""
+        # membershipType=""
+        # defaultDate=""
+
         while true; do
-            echo -n "Enter Patron ID: "
-            read patronID
+            tput cup 4 14  # Move to row 4, column 14
+            printf "%-61s" " "  # clear from currect cursor position
+            tput cup 4 14
+            read -r patronID
+
+            tput cup 13 3 
+            printf "%-76s║" " "
             patronID=$(echo "$patronID" | tr 'a-z' 'A-Z')
             if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
-                    echo "Invalid ID format, Please insert P + 4 digits. eg. P0001"
-                    echo ""
-                    continue
+                errorMessage="Invalid ID format, Please insert P + 4 digits. eg. P0001"
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
             else
                 break 
             fi
@@ -238,388 +427,910 @@ function searchDetails() {
         if grep -q "^$patronID:" patron.txt; then
             patron_data=$(grep "^$patronID:" patron.txt)
             IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate <<< "$patron_data"
-            echo "First Name: $firstName"
-            echo "Last Name: $lastName"
-            echo "Mobile Number: $mobileNumber"
-            echo "Birth Date (MM-DD-YYYY): $birthDate"
-            echo "Membership type: $membershipType"
-            echo "Joined Date (MM-DD-YYYY): $defaultDate"
+            tput cup 5 15
+            printf "%-20s" "$firstName"
+            tput cup 6 14
+            printf "%-20s" "$lastName"
+            tput cup 7 18
+            printf "%-20s" "$mobileNumber"
+            tput cup 8 28
+            printf "%-20s" "$birthDate"
+            tput cup 9 39
+            printf "%-20s" "$membershipType"
+            tput cup 10 29
+            printf "%-20s" "$defaultDate"
         else
-            echo "Patron ID not found"
+            errorMessage="Patron ID not found."                       
+            tput cup 13 3  
+            printf "%-76s║" "$errorMessage"
+            sleep 0.5 
         fi
-        echo " ________________________________________________"
-        echo ""
-        echo "Press (q) to return to Patron Maintenance Menu."
-        echo ""
+        tput cup 12 0
+        echo "║  Press (q) to return to Patron Maintenance Menu.                             ║"
+        echo "╠══════════════════════════════════════════════════════════════════════════════╣"        
         while true; do
-            echo -n "Search another patron? (y)es or (q)uit: "
-            read selection
-            selection=$(echo "$selection" | tr 'A-Z' 'a-z') 
+            tput cup 14 0 
+            echo "║  Search another patron? (y)es or (q)uit:                                     ║"
+            echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+            tput cup 14 43
+            read -r selection
+            selection=$(echo "$selection" | tr '[:upper:]' '[:lower:]') 
 
             if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
                 break 2 
             elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
                 break 
             else
-                echo "Invalid choice. Please enter choice again."
+                errorMessage="Invalid choice. Please enter choice again. (Press any key to continue)"
+                tput cup 14 3 
+                printf "%-76s║" "$errorMessage"
+                tput cup 14 0
+                read -r -n 1  
             fi
         done
     done
 }
 
 function updateDetails() {
-    clear
-    echo "Update a Patron Details"
-    echo ""
+    showUpdateMenu
     while true; do
-        echo -n "Enter Patron ID: "
-        read patronID
+        tput cup 4 14  # Move to row 4, column 14
+        printf "%-61s" " "  # clear from currect cursor position
+        tput cup 4 14
+        read -r patronID
+
+        tput cup 13 3 
+        printf "%-76s║" " "
+
         patronID=$(echo "$patronID" | tr 'a-z' 'A-Z')
         if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
-                echo "Invalid ID format, Please insert P + 4 digits. eg. P0001"
-                echo ""
-                continue
+            errorMessage="Invalid ID format, Please insert P + 4 digits. eg. P0001"
+                            tput cup 13 3  
+            printf "%-76s║" "$errorMessage"
+            continue
         else
             break 
         fi
     done 
-    echo "________________________________________________"
     echo ""
     if grep -q "^$patronID:" patron.txt; then
         patron_data=$(grep "^$patronID:" patron.txt)
         IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate <<< "$patron_data"
-        echo "First Name: $firstName"
-        echo "Last Name: $lastName"
+        tput cup 5 15
+        printf "%-20s" "$firstName"
+        tput cup 6 14
+        printf "%-20s" "$lastName"
 
         while true; do
-            echo -n "Mobile Number: "
-            read newmobileNumber
+            tput cup 7 18 
+            printf "%-57s" " "  
+            tput cup 7 18
+            read -r newmobileNumber
+
+            tput cup 13 3 
+            printf "%-76s║" " "
 
             if [ -z "$newmobileNumber" ]; then
-                echo "Mobile number cannot be empty."
+                errorMessage="Mobile number cannot be empty."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
                 continue
             fi
 
-            length=${#newmobileNumber}
-
-             # if user didnt enter "-", then accept 10 or 11 digits
-            if [ "${newmobileNumber:3:1}" != "-" ]; then
-                if [ "$length" -eq 10 ] || [ "$length" -eq 11 ]; then
-                    # auto add in the "-"
-                    newmobileNumber="${newmobileNumber:0:3}-${newmobileNumber:3}"
-
-                    if [ "$newmobileNumber" = "$mobileNumber" ]; then # same number
-                        break
-                    fi
-
-                    mobileNumberExists=$(grep ":$newmobileNumber:" patron.txt) # check exists in db
-                    if [ -n "$mobileNumberExists" ]; then
-                        echo "Mobile number already exists."
-                        continue
-                    fi
-                    break
-                else
-                    echo "Invalid format! Must be 10 or 11 digits without \" - \" ."
-                fi
-            # if user enter "-", then accept 11 or 12 digits
-            elif [ "${newmobileNumber:3:1}" == "-" ]; then
-                if [ "$length" -eq 11 ] || [ "$length" -eq 12 ]; then
-
-                    if [ "$newmobileNumber" = "$mobileNumber" ]; then # same number
-                    break
-                    fi
-
-                    mobileNumberExists=$(grep ":$newmobileNumber:" patron.txt) # check exists in db
-                    if [ -n "$mobileNumberExists" ]; then
-                        echo "Mobile number already exists."
-                    continue
-                    fi
-                    break
-                else
-                    echo "Invalid format! Must be 11 or 12 digits with \" - \" ."
-                fi
-            else 
-                echo "Invalid Phone Number! Must be 10 or 11 digits."
+            checkNumber="${newmobileNumber//-/}"
+            length=${#checkNumber}
+            checkStartingNumber="${checkNumber:0:3}"
+        
+            if [[ ! "$checkStartingNumber" =~ ^01[0-9]$ ]]; then
+                errorMessage="Invalid mobile number. Must start with 010-019."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
             fi
+
+            if [ "$checkStartingNumber" = "011" ]; then
+                # 011 needs 11 digits total
+                if [ "$length" -ne 11 ]; then
+                    errorMessage="Numbers starting with 011 must have 11 digits total."
+                    tput cup 13 3 
+                    printf "%-76s║" "$errorMessage"
+                    continue
+                fi
+            else
+                # All other need 10 digits total 
+                if [ "$length" -ne 10 ]; then
+                    errorMessage="Numbers starting with ${checkStartingNumber} must have 10 digits total"
+                    tput cup 13 3 
+                    printf "%-76s║" "$errorMessage"
+                    continue
+                fi
+            fi
+
+            newmobileNumber="${checkNumber:0:3}-${checkNumber:3}"
+            break
         done
 
         while true; do
-            echo -n "Birth Date (MM-DD-YYYY): "
-            read NewBirthDate
+            tput cup 8 28 
+            printf "%-47s" " "  
+            tput cup 8 28         
+            read -r NewBirthDate
             
-            if [ -z "$NewBirthDate" ]; then
-                echo "Birth date cannot be empty."
-                continue
-            fi
-            
-            # clear input to only digit
+                            tput cup 13 3 
+            printf "%-76s║" " "
+
+            # Clear input to only digits
             cleanNewBirthDate=$(echo "$NewBirthDate" | tr -d -c '0-9')
 
-            #check if has 8 digit
-            if [[ "${#cleanNewBirthDate}" -eq 8 ]]; then
-                # add in the "-" for data entry and "/" for checking
-                NewBirthDate="${cleanNewBirthDate:0:2}-${cleanNewBirthDate:2:2}-${cleanNewBirthDate:4:4}"
-                NewBirthDateCheck="${cleanNewBirthDate:0:2}/${cleanNewBirthDate:2:2}/${cleanNewBirthDate:4:4}"
-            else
-                echo "Invalid date. Have to include 0."
+            # Check if empty
+            if [ -z "$cleanNewBirthDate" ]; then
+                errorMessage="Birth date cannot be empty."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
+            fi
+            
+            # Check if has 8 digits
+            if [[ "${#cleanNewBirthDate}" -ne 8 ]]; then
+                errorMessage="Invalid date format. Must be 8 digits (MMDDYYYY)."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
+            fi
+            
+            # Extract date parts
+            month="${cleanNewBirthDate:0:2}"
+            day="${cleanNewBirthDate:2:2}"
+            year="${cleanNewBirthDate:4:4}"
+            
+            # Format for display
+            NewBirthDate="${month}-${day}-${year}"
+            
+            # ALWAYS validate ranges regardless of date -d result
+            if (( month < 1 || month > 12 )); then
+                errorMessage="Month must be between 1-12."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
+            elif (( day < 1 || day > 31 )); then
+                errorMessage="Day must be between 1-31."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
+            elif (( year < 1900 )); then
+                errorMessage="Year must be between 1900-$(date +"%Y")."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
                 continue
             fi
 
-            # check with date -d if its real calender
-            if ! date -d "$NewBirthDateCheck" "+%m-%d-%Y" > /dev/null 2>&1; then 
-                # get month, day, year 
-                month="${NewBirthDate:0:2}"
-                day="${NewBirthDate:3:2}"
-                year="${NewBirthDate:6:4}"
+            # Calculate mnimum 12 years old
+            currentYear=$(date +"%Y")
+            currentMonth=$(date +"%m")
+            currentDay=$(date +"%d")
+            minYear=$((currentYear - 12))
 
-                if (( month < 1 || month > 12 )); then
-                    echo "Month must be between 1 - 12."
-                elif (( day < 1 || day > 31 )); then
-                    echo "Day must be between 1 - 31."
-                elif (( year < 1900 || year > $(date +"%Y") )); then
-                    echo "Year must be between 1900 - current."
-                fi
+            if (( year > minYear )); then
+                errorMessage="Must be at least 12 years old."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
                 continue
-            else
-                break
+            elif (( year == minYear && month > currentMonth )); then
+                errorMessage="Must be at least 12 years old."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
+            elif (( year == minYear && month == currentMonth && day > currentDay )); then
+                errorMessage="Must be at least 12 years old."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
             fi
+            
+            # Check if date is valid calendar date (Feb 30, etc.)
+            NewBirthDateCheck="${month}/${day}/${year}"
+            if ! date -d "$NewBirthDateCheck" "+%m-%d-%Y" > /dev/null 2>&1; then
+                errorMessage="Invalid calendar date (e.g., Feb 30 doesn't exist)."
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
+                continue
+            fi
+            break
         done
-        
-        echo "Membership type: $membershipType"
-        echo "Joined Date (MM-DD-YYYY): $defaultDate"
-    else
-        echo "Patron ID not found"
-    fi
-    echo "________________________________________________"
-    echo ""
-    echo "Press (q) to return to Patron Maintenance Menu."
-    echo ""
-    echo -n "Are you sure you want to $(tput bold)UPDATE$(tput sgr0) the above Patron Details? (y)es or (q)uit: "
-    read selection
-    selection=$(echo "$selection" | tr 'A-Z' 'a-z') 
 
-    if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
-        continue 
-    elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
-        sed -i "s/^$patronID:.*/$patronID:$firstName:$lastName:$newmobileNumber:$NewBirthDate:$membershipType:$defaultDate/" patron.txt
-        continue 
+        tput cup 9 39
+        printf "%-20s" "$membershipType"
+        tput cup 10 29
+        printf "%-20s" "$defaultDate"
     else
-        echo "Invalid choice. Please enter choice again."
+        errorMessage="Patron ID not found."                       
+        tput cup 13 3  
+        printf "%-76s║" "$errorMessage"
+        sleep 0.5
     fi
+    tput cup 12 0
+    echo "║  Press (q) to return to Patron Maintenance Menu.                             ║"
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"        
+    while true; do
+        tput cup 14 0 
+        echo "║  Are you sure you want to $(tput bold)UPDATE$(tput sgr0) the above Patron Details? (y)es or (q)uit:  ║"
+        echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+        tput cup 14 78
+        read -r selection
+        selection=$(echo "$selection" | tr '[:upper:]' '[:lower:]') 
+
+        if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
+            break 2 
+        elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
+            sed -i "s/^$patronID:.*/$patronID:$firstName:$lastName:$newmobileNumber:$NewBirthDate:$membershipType:$defaultDate/" patron.txt
+            break 2
+        else
+            errorMessage="Invalid choice. Please enter choice again. (Press any key to continue)"
+            tput cup 14 3 
+            printf "%-76s║" "$errorMessage"
+            tput cup 14 0
+            read -r -n 1  
+        fi
+    done
 }
 
 function deleteDetails() {
-    clear
-    echo "Delete a Patron Details"
-    echo ""
-    
     while true; do
-        echo -n "Enter Patron ID: "
-        read patronID
-        patronID=$(echo "$patronID" | tr 'a-z' 'A-Z')
-        if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
-                echo "Invalid ID format, Please insert P + 4 digits. eg. P0001"
-                echo ""
+        showDeleteMenu
+
+        while true; do
+            tput cup 4 14  # Move to row 4, column 14
+            printf "%-61s" " "  # clear from currect cursor position
+            tput cup 4 14
+            read -r patronID
+
+            tput cup 13 3 
+            printf "%-76s║" " "
+
+            patronID=$(echo "$patronID" | tr 'a-z' 'A-Z')
+            if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
+                errorMessage="Invalid ID format, Please insert P + 4 digits. eg. P0001"
+                tput cup 13 3 
+                printf "%-76s║" "$errorMessage"
                 continue
+            else
+                break 
+            fi
+        done 
+
+        if grep -q "^$patronID:" patron.txt; then
+            patron_data=$(grep "^$patronID:" patron.txt)
+            IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate <<< "$patron_data"
+            tput cup 5 15
+            printf "%-20s" "$firstName"
+            tput cup 6 14
+            printf "%-20s" "$lastName"
+            tput cup 7 18
+            printf "%-20s" "$mobileNumber"
+            tput cup 8 28
+            printf "%-20s" "$birthDate"
+            tput cup 9 39
+            printf "%-20s" "$membershipType"
+            tput cup 10 29
+            printf "%-20s" "$defaultDate"
         else
-            break 
+            errorMessage="Patron ID not found."                       
+            tput cup 13 3  
+            printf "%-76s║" "$errorMessage"
+            sleep 0.5 
         fi
-    done 
+        tput cup 12 0
+        echo "║  Press (q) to return to Patron Maintenance Menu.                             ║"
+        echo "╠══════════════════════════════════════════════════════════════════════════════╣"        
+        while true; do
+            tput cup 14 0 
+            echo "║  Are you sure you want to $(tput bold)DELETE$(tput sgr0) above Patron Details? (y)es or (q)uit:      ║"
+            echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+            tput cup 14 74
+            read -r selection
+            selection=$(echo "$selection" | tr '[:upper:]' '[:lower:]') 
 
-    echo " ________________________________________________"
-    if grep -q "^$patronID:" patron.txt; then
-        patron_data=$(grep "^$patronID:" patron.txt)
-        IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate <<< "$patron_data"
-        echo "First Name: $firstName"
-        echo "Last Name: $lastName"
-        echo "Mobile Number: $mobileNumber"
-        echo "Birth Date (MM-DD-YYYY): $birthDate"
-        echo "Membership type: $membershipType"
-        echo "Joined Date (MM-DD-YYYY): $defaultDate"
-    else
-        echo "Patron ID not found"
-    fi
-    echo " ________________________________________________"
-    echo ""
-    echo "Press (q) to return to Patron Maintenance Menu."
-    echo ""
-    echo -n "Are you sure you want to $(tput bold)DELETE$(tput sgr0) the above Patron Details? (y)es or (q)uit: "
-    read selection
-    selection=$(echo "$selection" | tr 'A-Z' 'a-z') 
-
-    if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
-        continue 
-    elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
-        sed -i "/^$patronID:/d" patron.txt
-        continue
-    else
-        echo "Invalid choice. Please enter choice again."
-    fi
+            if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
+                break 2     
+            elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
+                sed -i "/^$patronID:/d" patron.txt
+                break 2
+            else
+                errorMessage="Invalid choice. Please enter choice again. (Press any key to continue)"
+                tput cup 14 3 
+                printf "%-76s║" "$errorMessage"
+                tput cup 14 0
+                read -r -n 1 
+            fi
+        done
+    done
 }
 
 function sortLastName() {
-    clear
-    col_width=20
-    echo "Patron Details Sorted by Last Name"
-    echo ""
-    echo " _________________________________________________________________________________________"
-    printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "Last Name" "First Name" "Mobile Number" "Joined Date" "Membership Type"
-
+    showSortLastNameMenu
+    headerRow=5 # including header
+    dataRow=$(tail -n +2 patron.txt | grep -c -v '^[[:space:]]*$')
+    headerDataCount=$((headerRow + dataRow))
     # tail -n +2 patron.txt is used to skip the first line of the file, which is the header.
     # -t ':' is used to specify the delimiter as colon and -k3, 3 is used to sort by the third field, which is the last name.
     # while IFS=':' is used to sets the field separator to colon for the read command
-    tail -n +2 patron.txt | sort -t ':' -k3,3 | while IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate; do 
-        printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "$lastName" "$firstName" "$mobileNumber" "$defaultDate" "$membershipType"
+    tail -n +2 patron.txt | sort -t ':' -k3,3 | while IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate; do
+        # Skip empty lines 
+        if [[ -z "$patronID" && -z "$firstName" && -z "$lastName" && -z "$mobileNumber" && -z "$birthDate" && -z "$membershipType" && -z "$defaultDate" ]]; then
+            continue
+        fi
+        printf "║ %-15s ║ %-15s ║ %-15s ║ %-15s ║ %-15s ║\n" "$lastName" "$firstName" "$mobileNumber" "$defaultDate" "$membershipType"
     done
 
-    echo ""
-    echo "Press (q) to return to Patron Maintenance Menu."
-    echo ""
-    echo -n "Would you like to export the report as ASCII text file? (y)es (q)uit: "
-    read selection
-    selection=$(echo "$selection" | tr 'A-Z' 'a-z') 
 
-    if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
-        continue 
-    elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
-        echo -n "Export file. Enter file name: "
-        read fileName
-        if [ -n "$fileName" ]; then
-            # sort -t ':' -k3,3 patron.txt > "$fileName"
-            head -n 1 patron.txt > "$fileName"  # Write header
-            tail -n +2 patron.txt | sort -t ':' -k3,3 >> "$fileName"
-            echo "Report exported to $fileName."
+    echo "╠═════════════════╩═════════════════╩═════════════════╩═════════════════╩═════════════════╣"
+    echo "║ Press (q) to return to Patron Maintenance Menu.                                         ║"                            
+
+    while true; do
+        tput cup $((headerDataCount + 2)) 0
+        echo "║ Would you like to export the report as ASCII text file? (y)es (q)uit:                   ║"
+        echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+        tput cup $((headerDataCount + 2)) 72
+        read -r selection
+        selection=$(echo "$selection" | tr '[:upper:]' '[:lower:]')
+
+        if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
+            break
+        elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
+            while true; do
+                tput cup $((headerDataCount + 3)) 0
+                echo "║ Enter file name:                                                                        ║"
+                echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+                tput cup $((headerDataCount + 3)) 19
+                read -r fileName
+
+                if [ -n "$fileName" ]; then
+                    if [ ${#fileName} -gt 12 ]; then
+                        tput cup $((headerDataCount + 3)) 0
+                        echo "║ File name must be 12 characters or less. Please try again. (Press any key to continue)        ║"
+                        read -r -n 1 
+                        continue
+                    fi
+
+                    if [ -e "$fileName" ]; then
+                         while true; do  
+                            tput cup $((headerDataCount + 3)) 0
+                            echo "║ File already exists. Do you want to overwrite the file? (y)es (n)o:                     ║"
+                            tput cup $((headerDataCount + 3)) 70
+                            read -r overwrite
+                            overwrite=$(echo "$overwrite" | tr '[:upper:]' '[:lower:]')
+                            
+                            if [ "$overwrite" = "y" ] || [ "$overwrite" = "yes" ]; then
+                                # Choose to overwrite
+                                head -n 1 patron.txt > "$fileName" # Write header
+                                tail -n +2 patron.txt | grep -v '^$' | sort -t ':' -k3,3 >> "$fileName" 
+                                tput cup $((headerDataCount + 4)) 0
+                                printf "║ %-88s║\n" "Report exported to $fileName"
+                                echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+                                sleep 0.5
+                                break 3  
+                            elif [ "$overwrite" = "n" ] || [ "$overwrite" = "no" ]; then
+                                break 3
+                            else 
+                                tput cup $((headerDataCount + 3)) 0
+                                echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                  ║"
+                                read -r -n 1 
+                            fi
+                        done
+                    else
+                        head -n 1 patron.txt > "$fileName" # Write header
+                        tail -n +2 patron.txt | grep -v '^$' | sort -t ':' -k3,3 >> "$fileName" 
+                        tput cup $((headerDataCount + 4)) 0
+                        printf "║ %-88s║\n" "Report exported to $fileName"
+                        echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+                        sleep 0.5
+                        break 2
+                    fi
+                else
+                    tput cup $((headerDataCount + 3)) 0
+                    echo "║ Invalid file name. Please try again. (Press any key to continue)                        ║"
+                    read -r -n 1 
+                fi
+            done
         else
-            echo "Invalid file name. Please press enter again."
-        fi                
-    else
-        echo "Invalid choice. Please enter choice again."
-    fi
+            tput cup $((headerDataCount + 2)) 0
+            echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                         ║"
+            read -r -n 1 
+        fi
+    done
 }
 
 function sortPatronID() {
-    clear
-    col_width=20
-    echo "Patron Details Sorted by Patron ID"
-    echo ""
-    echo " =========================================================================="
-    printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "Patron ID" "Last Name" "First Name" "Mobile Number" "Birth Date"
-    
+    showSortPatronIDMenu
+    headerRow=5 # including header
+    dataRow=$(tail -n +2 patron.txt | grep -c -v '^[[:space:]]*$')
+    headerDataCount=$((headerRow + dataRow))
     # Same as above, but sorting by the first field, which is the patron ID.
     tail -n +2 patron.txt | sort -t ':' -k1,1 | while IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate; do
-        printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "$patronID" "$lastName" "$firstName" "$mobileNumber" "$birthDate"
-    done             
-
-    echo ""
-    echo "Press (q) to return to Patron Maintenance Menu."
-    echo ""
-    echo -n "Would you like to export the report as ASCII text file? (y)es (q)uit: "
-    read selection
-    selection=$(echo "$selection" | tr 'A-Z' 'a-z') 
-
-    if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
-        continue 
-    elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
-        echo -n "Export file. Enter file name: "
-        read fileName
-        if [ -n "$fileName" ]; then
-            head -n 1 patron.txt > "$fileName"  # Write header
-            tail -n +2 patron.txt | sort -t ':' -k1,1 >> "$fileName"
-            # sort -t ':' -k1,1 patron.txt > "$fileName"
-            echo "Report exported to $fileName."
-        else
-            echo "Invalid file name. Please press enter again."
-        fi                
-    else
-        echo "Invalid choice. Please enter choice again."
-    fi
-}
-
-function sortJoinedDate() {
-    clear
-    col_width=20
-    echo "Patron Details Sorted by Joined Date"
-    echo ""
-    echo " =========================================================================="
-    printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "Patron ID" "Last Name" "First Name" "Mobile Number" "Joined Date"
-    
-    # Same as above, but sorting by the seventh field, which is the joined date.
-    tail -n +2 patron.txt | sort -t ':' -k7,7 | while IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate; do
-        printf "%-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s %-${col_width}s\n" "$patronID" "$lastName" "$firstName" "$mobileNumber" "$defaultDate"
-    done                   
-    
-    echo ""
-    echo "Press (q) to return to Patron Maintenance Menu."
-    echo ""
-    echo -n "Would you like to export the report as ASCII text file? (y)es (q)uit: "
-    read selection
-    selection=$(echo "$selection" | tr 'A-Z' 'a-z') 
-
-    if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
-        continue 
-    elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
-        echo -n "Export file. Enter file name: "
-        read fileName
-        if [ -n "$fileName" ]; then
-            head -n 1 patron.txt > "$fileName"  # Write header
-            tail -n +2 patron.txt | sort -t ':' -k7,7 >> "$fileName"
-            # sort -t ':' -k7,7 patron.txt > "$fileName"
-            echo "Report exported to $fileName."
-        else
-            echo "Invalid file name. Please press enter again."
+         # Skip empty lines 
+        if [[ -z "$patronID" && -z "$firstName" && -z "$lastName" && -z "$mobileNumber" && -z "$birthDate" && -z "$membershipType" && -z "$defaultDate" ]]; then
+            continue
         fi
-    else
-        echo "Invalid choice. Please enter choice again."
-    fi
-}
+        printf "║ %-15s ║ %-15s ║ %-15s ║ %-15s ║ %-15s ║\n" "$patronID" "$lastName" "$firstName" "$mobileNumber" "$birthDate"
+    done
 
-function main_menu() {
+    echo "╠═════════════════╩═════════════════╩═════════════════╩═════════════════╩═════════════════╣"
+    echo "║ Press (q) to return to Patron Maintenance Menu.                                         ║"                            
+
     while true; do
-        clear
-        echo "Patron Maintenance Menu"
-        echo ""
-        echo "A – Add New Patron Details"
-        echo "S – Search a Patron"
-        echo "U – Update a Patron Details"
-        echo "D – Delete a Patron Details"
-        echo "L – Sort Patrons by Last Name"
-        echo "P – Sort Patrons by Patron ID"
-        echo "J – Sort Patrons by Joined Date"
-        echo ""
-        echo "Q – Exit from Program"
-        echo ""
-        echo -n "Please select a choice: "
-        read selection
+        tput cup $((headerDataCount + 2)) 0
+        echo "║ Would you like to export the report as ASCII text file? (y)es (q)uit:                   ║"
+        echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+        tput cup $((headerDataCount + 2)) 72
+        read -r selection
+        selection=$(echo "$selection" | tr '[:upper:]' '[:lower:]')
 
-        selection=$(echo "$selection" | tr 'a-z' 'A-Z')
+        if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
+            break
+        elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
+            while true; do
+                tput cup $((headerDataCount + 3)) 0
+                echo "║ Enter file name:                                                                        ║"
+                echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+                tput cup $((headerDataCount + 3)) 19
+                read -r fileName
 
-        case $selection in
-            "A")
-                addNewDetails
-                ;;
-            "S")
-                searchDetails
-                ;;
-            "U")
-                updateDetails
-                ;;
-            "D")
-                deleteDetails
-                ;;
-            "L")
-                sortLastName
-                ;;
-            "P")
-                sortPatronID
-                ;;
-            "J")
-                sortJoinedDate
-                ;;
-            "Q")
-                exit
-                ;;
-        esac
+                if [ -n "$fileName" ]; then
+                    if [ ${#fileName} -gt 12 ]; then
+                            tput cup $((headerDataCount + 3)) 0
+                            echo "║ File name must be 12 characters or less. Please try again. (Press any key to continue)        ║"
+                            read -r -n 1 
+                            continue
+                        fi
+
+                        if [ -e "$fileName" ]; then
+                            while true; do  
+                                tput cup $((headerDataCount + 3)) 0
+                                echo "║ File already exists. Do you want to overwrite the file? (y)es (n)o:                     ║"
+                                tput cup $((headerDataCount + 3)) 70
+                                read -r overwrite
+                                overwrite=$(echo "$overwrite" | tr '[:upper:]' '[:lower:]')
+                            
+                        
+                        if [ "$overwrite" = "y" ] || [ "$overwrite" = "yes" ]; then
+                                # Choose to overwrite
+                                head -n 1 patron.txt > "$fileName" # Write header
+                                tail -n +2 patron.txt | grep -v '^$' | sort -t ':' -k1,1 >> "$fileName" 
+                                tput cup $((headerDataCount + 4)) 0
+                                printf "║ %-88s║\n" "Report exported to $fileName"
+                                echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+                                sleep 0.5
+                                break 3  
+                            elif [ "$overwrite" = "n" ] || [ "$overwrite" = "no" ]; then
+                                break 3
+                            else 
+                                tput cup $((headerDataCount + 3)) 0
+                                echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                         ║"
+                                read -r -n 1 
+                            fi
+                        done
+                    else
+                        head -n 1 patron.txt > "$fileName" # Write header
+                        tail -n +2 patron.txt | grep -v '^$' | sort -t ':' -k1,1 >> "$fileName" 
+                        tput cup $((headerDataCount + 4)) 0
+                        printf "║ %-88s║\n" "Report exported to $fileName"
+                        echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+                        sleep 0.5
+                        break 2
+                    fi
+                else
+                    tput cup $((headerDataCount + 3)) 0
+                    echo "║ Invalid file name. Please try again. (Press any key to continue)                               ║"
+                    read -r -n 1 
+                fi
+            done
+        else
+            tput cup $((headerDataCount + 2)) 0
+            echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                         ║"
+            read -r -n 1 
+        fi
     done
 }
 
-main_menu
+function sortJoinedDate() {
+    showSortJoinedDateMenu
+    headerRow=5 # including header
+    dataRow=$(tail -n +2 patron.txt | grep -c -v '^[[:space:]]*$')
+    headerDataCount=$((headerRow + dataRow))
+    
+    # Same as above, but sorting by the seventh field, which is the joined date.
+    tail -n +2 patron.txt | sort -t ':' -k7,7r | while IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate; do
+        if [[ -z "$patronID" && -z "$firstName" && -z "$lastName" && -z "$mobileNumber" && -z "$birthDate" && -z "$membershipType" && -z "$defaultDate" ]]; then
+            continue
+        fi
+        printf "║ %-15s ║ %-15s ║ %-15s ║ %-15s ║ %-15s ║\n" "$patronID" "$lastName" "$firstName" "$mobileNumber" "$defaultDate"
+    done
+    
+    echo "╠═════════════════╩═════════════════╩═════════════════╩═════════════════╩═════════════════╣"
+    echo "║ Press (q) to return to Patron Maintenance Menu.                                         ║"                            
+
+    while true; do
+        tput cup $((headerDataCount + 2)) 0
+        echo "║ Would you like to export the report as ASCII text file? (y)es (q)uit:                   ║"
+        echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+        tput cup $((headerDataCount + 2)) 72
+        read -r selection
+        selection=$(echo "$selection" | tr '[:upper:]' '[:lower:]')
+
+        if [ "$selection" = "q" ] || [ "$selection" = "quit" ]; then
+            break
+        elif [ "$selection" = "y" ] || [ "$selection" = "yes" ]; then 
+            while true; do
+                tput cup $((headerDataCount + 3)) 0
+                echo "║ Enter file name:                                                                        ║"
+                echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+                tput cup $((headerDataCount + 3)) 19
+                read -r fileName
+                if [ -n "$fileName" ]; then
+                    if [ ${#fileName} -gt 12 ]; then
+                        tput cup $((headerDataCount + 3)) 0
+                        echo "║ File name must be 12 characters or less. Please try again. (Press any key to continue)        ║"
+                        read -r -n 1 
+                        continue
+                    fi
+
+                    if [ -e "$fileName" ]; then
+                        while true; do  
+                            tput cup $((headerDataCount + 3)) 0
+                            echo "║ File already exists. Do you want to overwrite the file? (y)es (n)o:                     ║"
+                            tput cup $((headerDataCount + 3)) 70
+                            read -r overwrite
+                            overwrite=$(echo "$overwrite" | tr '[:upper:]' '[:lower:]')
+                            
+                            if [ "$overwrite" = "y" ] || [ "$overwrite" = "yes" ]; then
+                                # Choose to overwrite
+                                head -n 1 patron.txt > "$fileName" # Write header
+                                tail -n +2 patron.txt | grep -v '^$' | sort -t ':' -k7,7r >> "$fileName" 
+                                tput cup $((headerDataCount + 4)) 0
+                                printf "║ %-88s║\n" "Report exported to $fileName"
+                                echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+                                sleep 0.5
+                                break 3  
+                            elif [ "$overwrite" = "n" ] || [ "$overwrite" = "no" ]; then
+                                break 3
+                            else 
+                                tput cup $((headerDataCount + 3)) 0
+                                echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                         ║"
+                                read -r -n 1 
+                            fi
+                        done
+                    else
+                        head -n 1 patron.txt > "$fileName" # Write header
+                        tail -n +2 patron.txt | grep -v '^$' | sort -t ':' -k7,7r >> "$fileName" 
+                        tput cup $((headerDataCount + 4)) 0
+                        printf "║ %-88s║\n" "Report exported to $fileName"
+                        echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+                        sleep 0.5
+                        break 2
+                    fi
+                else
+                    tput cup $((headerDataCount + 3)) 0
+                    echo "║ Invalid file name. Please try again. (Press any key to continue)                               ║"
+                    read -r -n 1 
+                fi
+            done
+        else
+            tput cup $((headerDataCount + 2)) 0
+            echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                         ║"
+            read -r -n 1 
+        fi
+    done
+}
+
+function showStatistics() {
+    clear
+    echo "╔══════════════════════════════════════════════════════════════════════════════╗"
+    echo "║                             Patron Statistics                                ║"
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    
+    # Count total patrons
+    total=$(tail -n +2 patron.txt | grep -c -v '^[[:space:]]*$')
+    printf "║  %-88s║\n" "─── MEMBERSHIP SUMMARY ───"
+    printf "║  Total Patrons: %-61s║\n" "$total"
+    
+    # Count by membership type
+    students=$(grep -c ":Student:" patron.txt)
+    public=$(grep -c ":Public:" patron.txt)
+    
+    # Calculate percentages
+    if [ "$total" -gt 0 ]; then
+        student_percent=$((students * 100 / total))
+        public_percent=$((public * 100 / total))
+    else
+        student_percent=0
+        public_percent=0
+    fi
+
+    # fixed-width progress bars (20 total width)
+    BAR_WIDTH=20
+    student_filled=$((student_percent * BAR_WIDTH / 100))
+    public_filled=$((public_percent * BAR_WIDTH / 100))
+    
+    # Create bars with filled and empty 
+    student_bar=""
+    public_bar=""
+    
+    for ((i=0; i<BAR_WIDTH; i++)); do
+        if [ $i -lt $student_filled ]; then
+            student_bar="${student_bar}█"
+        else
+            student_bar="${student_bar}░"
+        fi
+        
+        if [ $i -lt $public_filled ]; then
+            public_bar="${public_bar}█"
+        else
+            public_bar="${public_bar}░"
+        fi
+    done
+
+    # progress bars with fixed width 
+    printf "║  Student Members: %3d%% │%-20s│%-32s║\n" "$student_percent" "$student_bar" ""
+    printf "║  Public Members:  %3d%% │%-20s│%-32s║\n" "$public_percent" "$public_bar" ""
+        
+    printf "║  %-76s║\n" " "
+    printf "║  %-88s║\n" "─── AGE DEMOGRAPHICS ───"
+    
+    currentYear=$(date +"%Y")
+    
+    under18=0
+    age18to30=0
+    age31to50=0
+    over50=0
+
+    # Calculate age
+    while IFS=: read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate; do
+        if [ "$patronID" = "PatronID" ] || [ -z "$birthDate" ]; then
+            continue
+        fi
+        
+        birthYear=$(echo "$birthDate" | cut -d'-' -f3) # break and take year
+        age=$((currentYear - birthYear))
+        
+        if [ "$age" -lt 18 ]; then
+            under18=$((under18 + 1))
+        elif [ "$age" -le 30 ]; then
+            age18to30=$((age18to30 + 1))
+        elif [ "$age" -le 50 ]; then
+            age31to50=$((age31to50 + 1))
+        else
+            over50=$((over50 + 1))
+        fi
+    done < patron.txt
+
+    printf "║  Under 18 years: %-17s                                           ║\n" "$under18"
+    printf "║  18-30 years:    %-17s                                           ║\n" "$age18to30"
+    printf "║  31-50 years:    %-17s                                           ║\n" "$age31to50"
+    printf "║  Over 50 years:  %-17s                                           ║\n" "$over50"
+    
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    echo "║ Press any key to continue.                                                   ║"
+    echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+    tput cuu 2 
+    tput cuf 29
+    read -r -n 1
+}
+
+function backupPatronData() {
+    clear
+    echo "╔══════════════════════════════════════════════════════════════════════════════╗"
+    echo "║                                  Backup Data                                 ║"
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    
+    # Check if patron.txt exists
+    if [ ! -f patron.txt ]; then
+        printf "║  %-76s║\n" "patron.txt not found. Nothing to backup."
+        printf "║  %-76s║\n" "Press any key to return to the main menu."
+        echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+        tput cuu 2 
+        tput cuf 45
+        read -r -n 1
+        return
+    fi
+    
+    # Create backup directory with error checking
+    if ! mkdir -p backup 2>/dev/null; then
+        printf "║  %-76s║\n" "Failed to create backup directory."
+        printf "║  %-76s║\n" "Press any key to return to the main menu."
+        echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+        read -r -n 1
+        return
+    fi
+    
+    # Check if backup directory exists and writable
+    if [ ! -d backup ] || [ ! -w backup ]; then
+        printf "║  %-76s║\n" "Backup directory does not exist or is not writable."
+        printf "║  %-76s║\n" "Press any key to return to the main menu."
+        echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+        read -r -n 1
+        return
+    fi
+    
+    # Create backup with timestamp
+    backup_file="backup/backup_$(date +"%Y-%m-%d %H:%M:%S").txt"
+    if cp patron.txt "$backup_file" 2>/dev/null; then
+        printf "║  %-76s║\n" "Backup created successfully!"
+        printf "║  Backup saved to: %-59s║\n" "$backup_file"
+    else
+        printf "║  %-76s║\n" "Failed to create backup file."
+    fi
+    
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    echo "║  Press any key to continue                                                   ║"
+    echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+    tput cuu 2 
+    tput cuf 29    
+    read -r -n 1
+}
+
+function restoreBackupData() {
+    clear
+    echo "╔══════════════════════════════════════════════════════════════════════════════╗"
+    echo "║                                Restore Backup                                ║"
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    
+    # Check if backup directory exists
+    if [ ! -d backup ] || [ ! -r backup ]; then
+        printf "║  %-76s║\n" "Backup directory does not exist or is not readable."
+        printf "║  %-76s║\n" "Press any key to return to the main menu."
+        echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+        read -r -n 1
+        return
+    fi
+    
+    # Check if any backup files
+    backup_count=0
+    for file in backup/backup_*; do
+        [ -f "$file" ] && backup_count=$((backup_count + 1))
+    done
+
+    if [ "$backup_count" -eq 0 ]; then
+        printf "║  %-76s║\n" "No backup files found."
+        printf "║  %-76s║\n" "Press any key to return to the main menu."
+        echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+        read -r -n 1
+        return
+    fi
+    
+    # loop to store backup filenames 
+    backup_files=()
+    for file in backup/backup_*; do
+        if [ -f "$file" ]; then
+            backup_files+=("${file##*/}")
+        fi
+    done
+    
+    count=1
+    for file in "${backup_files[@]}"; do
+        printf "║  %-3s %-71s ║\n" "[$count]" "$file"
+        ((count++))
+    done
+
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    
+    while true; do
+        tput cup $((backup_count + 4)) 0
+        printf "%-80s" " "  
+        tput cup $((backup_count + 4)) 0 
+        echo "║  Enter backup number to restore (Press C to cancel):                         ║"
+        echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+        
+        tput cup $((backup_count + 4)) 55
+        read -r choice
+
+        choice=$(echo "$choice" | tr '[:upper:]' '[:lower:]')
+
+        if [[ "$choice" == "C" ]]; then
+            return
+        elif [[ "$choice" =~ ^[0-9]+$ ]]; then
+            selected_file="${backup_files[$((choice-1))]}" # Valid numeric choice within range
+            
+            if cp "backup/$selected_file" patron.txt 2>/dev/null; then
+                clear
+                echo "╔══════════════════════════════════════════════════════════════════════════════╗"
+                echo "║                                Restore Backup                                ║"
+                echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+                printf "║  %-76s║\n" "Restore completed successfully!"
+                printf "║  Restored from: %-61s║\n" "$selected_file"
+                echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+                echo "║  Press any key to continue.                                                  ║"
+                echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+                tput cuu 2 
+                tput cuf 30
+                read -r -n 1
+                return
+            else
+                clear
+                echo "╔══════════════════════════════════════════════════════════════════════════════╗"
+                echo "║                                Restore Backup                                ║"
+                echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+                printf "║  %-76s║\n" "Failed to restore backup file."
+                echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+                echo "║  Press any key to continue.                                                  ║"
+                echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+                tput cuu 2 
+                tput cuf 30
+                read -r -n 1
+                return
+            fi
+        else            
+            tput cup $((backup_count + 4)) 0
+            printf "%-80s" " "  
+            tput cup $((backup_count + 4)) 0
+            printf "║  %-76s║" "Please enter a valid number or 'C' to cancel."
+            sleep 0.8
+        fi
+    done
+}
+
+while true; do
+    clear
+    echo "╔══════════════════════════════════════════════════════════════════════════════╗"
+    echo "║                           Patron Maintenance Menu                            ║"
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    echo "║                                                                              ║"
+    echo "║  A – Add New Patron Details                L – Sort Patrons by Last Name     ║"
+    echo "║  S – Search a Patron                       P – Sort Patrons by Patron ID     ║"
+    echo "║  U – Update a Patron Details               J – Sort Patrons by Joined Date   ║"
+    echo "║  D – Delete a Patron Details               B – Backup Data                   ║"
+    echo "║  T – Statistics Dashboard                  R – Restore Data                  ║"
+    echo "║                                            Q – Exit from Program             ║"
+    echo "║                                                                              ║"
+    echo "╠══════════════════════════════════════════════════════════════════════════════╣"
+    echo "║  Please select a choice:                                                     ║"
+    echo "╚══════════════════════════════════════════════════════════════════════════════╝"
+    
+    tput cuu 2 
+    tput cuf 27
+    read -r selection
+
+    selection=$(echo "$selection" | tr '[:upper:]' '[:lower:]')
+
+    case $selection in
+        "a")
+            addNewDetails
+            ;;
+        "s")
+            searchDetails
+            ;;
+        "u")
+            updateDetails
+            ;;
+        "d")
+            deleteDetails
+            ;;
+        "l")
+            sortLastName
+            ;;
+        "p")
+            sortPatronID
+            ;;
+        "j")
+            sortJoinedDate
+            ;;
+        "t")
+            showStatistics
+            ;;
+        "r")
+            restoreBackupData
+            ;;
+        "b")
+            backupPatronData
+            ;;
+        "q")
+            showExitMenu
+            exit
+            ;;
+        *)
+            tput cuu 1 
+            tput cuf 3
+            errorMessage="Invalid Choice, Please Try Again."
+            printf "%-76s║" "$errorMessage"
+            sleep 0.5
+    esac
+done
