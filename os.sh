@@ -82,7 +82,6 @@ function showSortLastNameMenu() {
     echo "║                            Patron Details Sorted by Last Name                           ║"
     echo "╠═════════════════╦═════════════════╦═════════════════╦═════════════════╦═════════════════╣"  
     printf "║ %-15s ║ %-15s ║ %-15s ║ %-15s ║ %-15s ║\n" "Last Name" "First Name" "Mobile Number" "Joined Date" "Membership Type"
-    echo "╠═════════════════╬═════════════════╬═════════════════╬═════════════════╬═════════════════╣"
 }
 
 function showSortPatronIDMenu() {
@@ -91,7 +90,6 @@ function showSortPatronIDMenu() {
     echo "║                            Patron Details Sorted by Patron ID                           ║"
     echo "╠═════════════════╦═════════════════╦═════════════════╦═════════════════╦═════════════════╣"  
     printf "║ %-15s ║ %-15s ║ %-15s ║ %-15s ║ %-15s ║\n" "Patron ID" "Last Name" "First Name" "Mobile Number" "Birth Date"
-    echo "╠═════════════════╬═════════════════╬═════════════════╬═════════════════╬═════════════════╣"
 }
 
 function showSortJoinedDateMenu() {
@@ -100,7 +98,6 @@ function showSortJoinedDateMenu() {
     echo "║                           Patron Details Sorted by Joined Date                          ║"
     echo "╠═════════════════╦═════════════════╦═════════════════╦═════════════════╦═════════════════╣"  
     printf "║ %-15s ║ %-15s ║ %-15s ║ %-15s ║ %-15s ║\n" "Patron ID" "Last Name" "First Name" "Mobile Number" "Joined Date"
-    echo "╠═════════════════╬═════════════════╬═════════════════╬═════════════════╬═════════════════╣"
 }
 
 function showExitMenu() {
@@ -413,7 +410,7 @@ function searchDetails() {
 
             tput cup 13 3 
             printf "%-76s║" " "
-            patronID=$(echo "$patronID" | tr 'a-z' 'A-Z')
+            patronID=$(echo "$patronID" | tr '[:lower:]' '[:upper:]')
             if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
                 errorMessage="Invalid ID format, Please insert P + 4 digits. eg. P0001"
                 tput cup 13 3 
@@ -482,7 +479,7 @@ function updateDetails() {
         tput cup 13 3 
         printf "%-76s║" " "
 
-        patronID=$(echo "$patronID" | tr 'a-z' 'A-Z')
+        patronID=$(echo "$patronID" | tr '[:lower:]' '[:upper:]')
         if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
             errorMessage="Invalid ID format, Please insert P + 4 digits. eg. P0001"
                             tput cup 13 3  
@@ -687,7 +684,7 @@ function deleteDetails() {
             tput cup 13 3 
             printf "%-76s║" " "
 
-            patronID=$(echo "$patronID" | tr 'a-z' 'A-Z')
+            patronID=$(echo "$patronID" | tr '[:lower:]' '[:upper:]')
             if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
                 errorMessage="Invalid ID format, Please insert P + 4 digits. eg. P0001"
                 tput cup 13 3 
@@ -748,6 +745,19 @@ function deleteDetails() {
 
 function sortLastName() {
     showSortLastNameMenu
+
+    if [ ! -f "patron.txt" ]; then
+        echo "╠═════════════════╩═════════════════╩═════════════════╩═════════════════╩═════════════════╣"
+        echo "║ No patron data file found. Please create patron records first.                          ║"
+        echo "╠═════════════════════════════════════════════════════════════════════════════════════════╣"
+        echo "║ Press any key to return to Patron Maintenance Menu.                                     ║"
+        echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+        read -r -n 1
+        return
+    fi
+
+    echo "╠═════════════════╬═════════════════╬═════════════════╬═════════════════╬═════════════════╣"
+
     headerRow=5 # including header
     dataRow=$(tail -n +2 patron.txt | grep -c -v '^[[:space:]]*$')
     headerDataCount=$((headerRow + dataRow))
@@ -787,7 +797,7 @@ function sortLastName() {
                 if [ -n "$fileName" ]; then
                     if [ ${#fileName} -gt 12 ]; then
                         tput cup $((headerDataCount + 3)) 0
-                        echo "║ File name must be 12 characters or less. Please try again. (Press any key to continue)        ║"
+                        echo "║ File name must be 12 characters or less. (Press any key to continue)                    ║"
                         read -r -n 1 
                         continue
                     fi
@@ -834,7 +844,7 @@ function sortLastName() {
             done
         else
             tput cup $((headerDataCount + 2)) 0
-            echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                         ║"
+            echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                  ║"
             read -r -n 1 
         fi
     done
@@ -842,6 +852,19 @@ function sortLastName() {
 
 function sortPatronID() {
     showSortPatronIDMenu
+
+    if [ ! -f "patron.txt" ]; then
+        echo "╠═════════════════╩═════════════════╩═════════════════╩═════════════════╩═════════════════╣"
+        echo "║ No patron data file found. Please create patron records first.                          ║"
+        echo "╠═════════════════════════════════════════════════════════════════════════════════════════╣"
+        echo "║ Press any key to return to Patron Maintenance Menu.                                     ║"
+        echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+        read -r -n 1
+        return
+    fi
+
+    echo "╠═════════════════╬═════════════════╬═════════════════╬═════════════════╬═════════════════╣"
+
     headerRow=5 # including header
     dataRow=$(tail -n +2 patron.txt | grep -c -v '^[[:space:]]*$')
     headerDataCount=$((headerRow + dataRow))
@@ -878,7 +901,7 @@ function sortPatronID() {
                 if [ -n "$fileName" ]; then
                     if [ ${#fileName} -gt 12 ]; then
                             tput cup $((headerDataCount + 3)) 0
-                            echo "║ File name must be 12 characters or less. Please try again. (Press any key to continue)        ║"
+                            echo "║ File name must be 12 characters or less. (Press any key to continue)                    ║"
                             read -r -n 1 
                             continue
                         fi
@@ -905,7 +928,7 @@ function sortPatronID() {
                                 break 3
                             else 
                                 tput cup $((headerDataCount + 3)) 0
-                                echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                         ║"
+                                echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                  ║"
                                 read -r -n 1 
                             fi
                         done
@@ -920,13 +943,13 @@ function sortPatronID() {
                     fi
                 else
                     tput cup $((headerDataCount + 3)) 0
-                    echo "║ Invalid file name. Please try again. (Press any key to continue)                               ║"
+                    echo "║ Invalid file name. Please try again. (Press any key to continue)                        ║"
                     read -r -n 1 
                 fi
             done
         else
             tput cup $((headerDataCount + 2)) 0
-            echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                         ║"
+            echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                  ║"
             read -r -n 1 
         fi
     done
@@ -934,6 +957,19 @@ function sortPatronID() {
 
 function sortJoinedDate() {
     showSortJoinedDateMenu
+
+    if [ ! -f "patron.txt" ]; then
+        echo "╠═════════════════╩═════════════════╩═════════════════╩═════════════════╩═════════════════╣"
+        echo "║ No patron data file found. Please create patron records first.                          ║"
+        echo "╠═════════════════════════════════════════════════════════════════════════════════════════╣"
+        echo "║ Press any key to return to Patron Maintenance Menu.                                     ║"
+        echo "╚═════════════════════════════════════════════════════════════════════════════════════════╝"
+        read -r -n 1
+        return
+    fi
+
+    echo "╠═════════════════╬═════════════════╬═════════════════╬═════════════════╬═════════════════╣"
+
     headerRow=5 # including header
     dataRow=$(tail -n +2 patron.txt | grep -c -v '^[[:space:]]*$')
     headerDataCount=$((headerRow + dataRow))
@@ -969,7 +1005,7 @@ function sortJoinedDate() {
                 if [ -n "$fileName" ]; then
                     if [ ${#fileName} -gt 12 ]; then
                         tput cup $((headerDataCount + 3)) 0
-                        echo "║ File name must be 12 characters or less. Please try again. (Press any key to continue)        ║"
+                        echo "║ File name must be 12 characters or less. (Press any key to continue)                    ║"
                         read -r -n 1 
                         continue
                     fi
@@ -995,7 +1031,7 @@ function sortJoinedDate() {
                                 break 3
                             else 
                                 tput cup $((headerDataCount + 3)) 0
-                                echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                         ║"
+                                echo "║ File name must be 12 characters or less. (Press any key to continue)                    ║"
                                 read -r -n 1 
                             fi
                         done
@@ -1010,13 +1046,13 @@ function sortJoinedDate() {
                     fi
                 else
                     tput cup $((headerDataCount + 3)) 0
-                    echo "║ Invalid file name. Please try again. (Press any key to continue)                               ║"
+                    echo "║ Invalid file name. Please try again. (Press any key to continue)                        ║"
                     read -r -n 1 
                 fi
             done
         else
             tput cup $((headerDataCount + 2)) 0
-            echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                         ║"
+            echo "║ Invalid choice. Please enter choice again. (Press any key to continue)                  ║"
             read -r -n 1 
         fi
     done
@@ -1225,7 +1261,7 @@ function restoreBackupData() {
 
         choice=$(echo "$choice" | tr '[:upper:]' '[:lower:]')
 
-        if [[ "$choice" == "C" ]]; then
+        if [[ "$choice" == "c" ]]; then
             return
         elif [[ "$choice" =~ ^[0-9]+$ ]]; then
             selected_file="${backup_files[$((choice-1))]}" # Valid numeric choice within range
@@ -1262,8 +1298,8 @@ function restoreBackupData() {
             tput cup $((backup_count + 4)) 0
             printf "%-80s" " "  
             tput cup $((backup_count + 4)) 0
-            printf "║  %-76s║" "Please enter a valid number or 'C' to cancel."
-            sleep 0.8
+            printf "║  %-76s║" "Please enter a valid number or 'C' to cancel. (Press any key to continue)"
+            read -r -n 1
         fi
     done
 }
