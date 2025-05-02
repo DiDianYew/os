@@ -151,12 +151,6 @@ function addNewDetails() {
                 tput cup 13 3 
                 printf "%-76s║" "$errorMessage"
                 continue 
-            # skip the first col, check second col
-            elif grep -q "^[^:]*:$firstName:" patron.txt; then
-                errorMessage="First name already exists."
-                tput cup 13 3 
-                printf "%-76s║" "$errorMessage"
-                continue
             else
                 break
             fi
@@ -178,11 +172,6 @@ function addNewDetails() {
                 continue
             elif [[ ! "$lastName" =~ ^[A-Za-z]+$ ]]; then
                 errorMessage="Last name can only contain letters."
-                tput cup 13 3 
-                printf "%-76s║" "$errorMessage"
-                continue
-            elif grep -q "^[^:]*:[^:]*:$lastName:" patron.txt; then
-                errorMessage="Last name already exists."
                 tput cup 13 3 
                 printf "%-76s║" "$errorMessage"
                 continue
@@ -288,8 +277,9 @@ function addNewDetails() {
                 tput cup 13 3 
                 printf "%-76s║" "$errorMessage"
                 continue
-            elif (( year < 1900  )); then
-                errorMessage="Year must be between 1900-$(date +"%Y")."
+            elif (( year < 1900 )); then
+                maxYear=$(($(date +"%Y") - 12))
+                errorMessage="Year must be between 1900-$maxYear."
                 tput cup 13 3 
                 printf "%-76s║" "$errorMessage"
                 continue
