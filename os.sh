@@ -406,32 +406,33 @@ function searchDetails() {
                 tput cup 13 3 
                 printf "%-76s║" "$errorMessage"
                 continue
+            fi
+
+            if grep -q "^$patronID:" patron.txt; then
+                patron_data=$(grep "^$patronID:" patron.txt)
+                IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate <<< "$patron_data"
+                tput cup 5 15
+                printf "%-20s" "$firstName"
+                tput cup 6 14
+                printf "%-20s" "$lastName"
+                tput cup 7 18
+                printf "%-20s" "$mobileNumber"
+                tput cup 8 28
+                printf "%-20s" "$birthDate"
+                tput cup 9 39
+                printf "%-20s" "$membershipType"
+                tput cup 10 29
+                printf "%-20s" "$defaultDate"
+                break
             else
-                break 
+                errorMessage="Patron ID not found."                       
+                tput cup 13 3  
+                printf "%-76s║" "$errorMessage"
+                continue
             fi
         done 
 
-        if grep -q "^$patronID:" patron.txt; then
-            patron_data=$(grep "^$patronID:" patron.txt)
-            IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate <<< "$patron_data"
-            tput cup 5 15
-            printf "%-20s" "$firstName"
-            tput cup 6 14
-            printf "%-20s" "$lastName"
-            tput cup 7 18
-            printf "%-20s" "$mobileNumber"
-            tput cup 8 28
-            printf "%-20s" "$birthDate"
-            tput cup 9 39
-            printf "%-20s" "$membershipType"
-            tput cup 10 29
-            printf "%-20s" "$defaultDate"
-        else
-            errorMessage="Patron ID not found."                       
-            tput cup 13 3  
-            printf "%-76s║" "$errorMessage"
-            sleep 0.5 
-        fi
+        
         tput cup 12 0
         echo "║  Press (q) to return to Patron Maintenance Menu.                             ║"
         echo "╠══════════════════════════════════════════════════════════════════════════════╣"        
@@ -461,33 +462,43 @@ function searchDetails() {
 function updateDetails() {
     showUpdateMenu
     while true; do
-        tput cup 4 14  # Move to row 4, column 14
-        printf "%-61s" " "  # clear from currect cursor position
-        tput cup 4 14
-        read -r patronID
+        
+        
 
-        tput cup 13 3 
-        printf "%-76s║" " "
+        while true; do        
+            tput cup 4 14  # Move to row 4, column 14
+            printf "%-61s" " "  # clear from currect cursor position
+            tput cup 4 14
+            read -r patronID
 
-        patronID=$(echo "$patronID" | tr '[:lower:]' '[:upper:]')
-        if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
-            errorMessage="Invalid ID format, Please insert P + 4 digits. eg. P0001"
-                            tput cup 13 3  
-            printf "%-76s║" "$errorMessage"
-            continue
-        else
-            break 
-        fi
-    done 
-    echo ""
-    if grep -q "^$patronID:" patron.txt; then
-        patron_data=$(grep "^$patronID:" patron.txt)
-        IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate <<< "$patron_data"
-        tput cup 5 15
-        printf "%-20s" "$firstName"
-        tput cup 6 14
-        printf "%-20s" "$lastName"
+            tput cup 13 3 
+            printf "%-76s║" " "
+            patronID=$(echo "$patronID" | tr '[:lower:]' '[:upper:]')
+            if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
+                errorMessage="Invalid ID format, Please insert P + 4 digits. eg. P0001"
+                                tput cup 13 3  
+                printf "%-76s║" "$errorMessage"
+                continue
+            fi
+    
+            if grep -q "^$patronID:" patron.txt; then
+                patron_data=$(grep "^$patronID:" patron.txt)
+                IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate <<< "$patron_data"
+                tput cup 5 15
+                printf "%-20s" "$firstName"
+                tput cup 6 14
+                printf "%-20s" "$lastName"
+                break
+            else
+                errorMessage="Patron ID not found."                       
+                tput cup 13 3  
+                printf "%-76s║" "$errorMessage"
+                continue
+            fi
+        done 
 
+        echo ""
+    
         while true; do
             tput cup 7 18 
             printf "%-57s" " "  
@@ -629,12 +640,8 @@ function updateDetails() {
         printf "%-20s" "$membershipType"
         tput cup 10 29
         printf "%-20s" "$defaultDate"
-    else
-        errorMessage="Patron ID not found."                       
-        tput cup 13 3  
-        printf "%-76s║" "$errorMessage"
-        sleep 0.5
-    fi
+        break
+    done
     tput cup 12 0
     echo "║  Press (q) to return to Patron Maintenance Menu.                             ║"
     echo "╠══════════════════════════════════════════════════════════════════════════════╣"        
@@ -665,6 +672,7 @@ function deleteDetails() {
     while true; do
         showDeleteMenu
 
+
         while true; do
             tput cup 4 14  # Move to row 4, column 14
             printf "%-61s" " "  # clear from currect cursor position
@@ -673,39 +681,39 @@ function deleteDetails() {
 
             tput cup 13 3 
             printf "%-76s║" " "
-
             patronID=$(echo "$patronID" | tr '[:lower:]' '[:upper:]')
             if [[ ! "$patronID" =~ ^P[0-9]{4}$ ]]; then
                 errorMessage="Invalid ID format, Please insert P + 4 digits. eg. P0001"
                 tput cup 13 3 
                 printf "%-76s║" "$errorMessage"
                 continue
+            fi
+
+            if grep -q "^$patronID:" patron.txt; then
+                patron_data=$(grep "^$patronID:" patron.txt)
+                IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate <<< "$patron_data"
+                tput cup 5 15
+                printf "%-20s" "$firstName"
+                tput cup 6 14
+                printf "%-20s" "$lastName"
+                tput cup 7 18
+                printf "%-20s" "$mobileNumber"
+                tput cup 8 28
+                printf "%-20s" "$birthDate"
+                tput cup 9 39
+                printf "%-20s" "$membershipType"
+                tput cup 10 29
+                printf "%-20s" "$defaultDate"
+                break
             else
-                break 
+                errorMessage="Patron ID not found."                       
+                tput cup 13 3  
+                printf "%-76s║" "$errorMessage"
+                continue
             fi
         done 
 
-        if grep -q "^$patronID:" patron.txt; then
-            patron_data=$(grep "^$patronID:" patron.txt)
-            IFS=':' read -r patronID firstName lastName mobileNumber birthDate membershipType defaultDate <<< "$patron_data"
-            tput cup 5 15
-            printf "%-20s" "$firstName"
-            tput cup 6 14
-            printf "%-20s" "$lastName"
-            tput cup 7 18
-            printf "%-20s" "$mobileNumber"
-            tput cup 8 28
-            printf "%-20s" "$birthDate"
-            tput cup 9 39
-            printf "%-20s" "$membershipType"
-            tput cup 10 29
-            printf "%-20s" "$defaultDate"
-        else
-            errorMessage="Patron ID not found."                       
-            tput cup 13 3  
-            printf "%-76s║" "$errorMessage"
-            sleep 0.5 
-        fi
+        
         tput cup 12 0
         echo "║  Press (q) to return to Patron Maintenance Menu.                             ║"
         echo "╠══════════════════════════════════════════════════════════════════════════════╣"        
